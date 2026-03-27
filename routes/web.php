@@ -17,3 +17,8 @@ Route::prefix('ken-burat')->group(function () {
 
     Route::delete('/delete/{id}', [KenBuratController::class, 'destroy'])->name('ken-burat.delete');
 });
+
+use App\Http\Controllers\DashboardController;
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
