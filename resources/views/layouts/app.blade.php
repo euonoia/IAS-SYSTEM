@@ -33,7 +33,7 @@
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <div class="flex h-screen overflow-hidden">
-        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 z-20">
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 z-20 transition-all duration-300">
             <div class="p-6">
                 <div class="flex items-center gap-3 text-blue-600">
                     <i class="fas fa-heart-pulse text-2xl"></i>
@@ -43,13 +43,18 @@
 
             <nav class="flex-1 px-4 space-y-2 mt-4">
                 <a href="{{ route('dashboard') }}" 
-                   class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('dashboard') ? 'sidebar-item-active' : 'text-slate-500' }}">
+                   class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('dashboard*') ? 'sidebar-item-active' : 'text-slate-500' }}">
                     <i class="fas fa-th-large w-5"></i> Dashboard
                 </a>
 
                 <a href="{{ route('clinic.records.index') }}" 
                    class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('clinic/records*') ? 'sidebar-item-active' : 'text-slate-500' }}">
                     <i class="fas fa-user-injured w-5"></i> Patients
+                </a>
+
+                <a href="{{ route('clinic.consultations.index') }}" 
+                   class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('clinic/consultations*') ? 'sidebar-item-active' : 'text-slate-500' }}">
+                    <i class="fas fa-notes-medical w-5"></i> Consultations
                 </a>
             </nav>
 
@@ -70,16 +75,28 @@
                     <button id="toggleBtn" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors">
                         <i class="fas fa-bars text-lg"></i>
                     </button>
+                    
                     <h1 class="text-lg font-semibold text-slate-700">
-                        @if(request()->is('dashboard')) Clinic Overview 
-                        @elseif(request()->is('clinic/records/create')) Add Patient Record
-                        @else Patient Management @endif
+                        @if(request()->is('dashboard*')) 
+                            Clinic Overview 
+                        @elseif(request()->is('clinic/records/create')) 
+                            Add Patient Record
+                        @elseif(request()->is('clinic/records*')) 
+                            Patient Management
+                        @elseif(request()->is('clinic/consultations/create')) 
+                            New Consultation
+                        @elseif(request()->is('clinic/consultations*')) 
+                            Consultation Management
+                        @else 
+                            Rxcel System
+                        @endif
                     </h1>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <button class="p-2 text-slate-400 hover:text-blue-500 transition-colors">
+                    <button class="p-2 text-slate-400 hover:text-blue-500 transition-colors relative">
                         <i class="fas fa-bell"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
                     <div class="h-8 w-px bg-slate-200"></div>
                     <span class="text-sm font-medium text-slate-600">{{ now()->format('D, M d, Y') }}</span>
@@ -87,10 +104,16 @@
             </header>
 
             <div class="p-8">
+                {{-- Global Success Alert --}}
                 @if(session('success'))
-                    <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-3 shadow-sm">
-                        <i class="fas fa-check-circle"></i>
-                        <span class="text-sm font-medium">{{ session('success') }}</span>
+                    <div id="alert-success" class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center justify-between shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-emerald-500"></i>
+                            <span class="text-sm font-semibold">{{ session('success') }}</span>
+                        </div>
+                        <button onclick="document.getElementById('alert-success').remove()" class="text-emerald-400 hover:text-emerald-600">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
                     </div>
                 @endif
 
@@ -107,9 +130,16 @@
             sidebar.classList.toggle('sidebar-closed');
         });
 
+        // Auto-close sidebar on small screens
         if (window.innerWidth < 768) {
             sidebar.classList.add('sidebar-closed');
         }
+
+        // Auto-hide success alert after 5 seconds
+        setTimeout(() => {
+            const alert = document.getElementById('alert-success');
+            if(alert) alert.style.display = 'none';
+        }, 5000);
     </script>
 </body>
 </html>
