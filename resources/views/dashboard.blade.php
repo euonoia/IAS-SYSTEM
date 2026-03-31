@@ -12,7 +12,7 @@
                 <i class="fas fa-users"></i>
             </div>
         </div>
-        <p class="text-xs text-emerald-500 mt-4 font-medium"><i class="fas fa-arrow-up"></i> 12% increase</p>
+        <p class="text-xs text-emerald-500 mt-4 font-medium"><i class="fas fa-arrow-up"></i> Live Sync</p>
     </div>
 
     <div class="glass p-6 rounded-2xl shadow-sm border border-blue-50">
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
     <div class="p-6 border-b border-slate-100">
         <h2 class="font-bold text-slate-800">Live Queue</h2>
     </div>
@@ -44,7 +44,7 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
-            @foreach($recentAppointments as $apt)
+            @forelse($recentAppointments as $apt)
             <tr class="hover:bg-slate-50/50 transition-colors">
                 <td class="px-6 py-4 text-sm font-semibold text-blue-600">{{ $apt->time }}</td>
                 <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ $apt->patient_name }}</td>
@@ -64,7 +64,48 @@
                     </button>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-slate-400 text-sm italic">
+                    No appointments available yet.
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+        <h2 class="font-bold text-slate-800">Recent Medical Records</h2>
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium">View All Records</a>
+    </div>
+    <table class="w-full text-left">
+        <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+            <tr>
+                <th class="px-6 py-4">Student ID</th>
+                <th class="px-6 py-4">Blood Type</th>
+                <th class="px-6 py-4">Allergies</th>
+                <th class="px-6 py-4">Chronic Illness</th>
+                <th class="px-6 py-4 text-right">Created At</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            @forelse($recentRecords as $record)
+            <tr class="hover:bg-slate-50/50 transition-colors">
+                <td class="px-6 py-4 text-sm font-semibold text-slate-700">{{ $record->student_id }}</td>
+                <td class="px-6 py-4 text-sm text-slate-600 text-center">{{ $record->blood_type ?? '-' }}</td>
+                <td class="px-6 py-4 text-sm text-red-500">{{ $record->allergies ?? 'None' }}</td>
+                <td class="px-6 py-4 text-sm text-slate-600">{{ $record->chronic_illness ?? 'None' }}</td>
+                <td class="px-6 py-4 text-sm text-slate-400 text-right">{{ $record->created_at->format('M d, Y') }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-slate-400 text-sm italic">
+                    No medical records found.
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

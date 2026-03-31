@@ -12,23 +12,28 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .sidebar-item:hover {
+        .sidebar-item-active {
             background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 100%);
             border-left: 4px solid #3b82f6;
+            color: #2563eb; /* blue-600 */
+            font-weight: 600;
         }
-        /* Smooth transition for sidebar */
+        .sidebar-item:hover:not(.sidebar-item-active) {
+            background: rgba(241, 245, 249, 0.5); /* slate-100 */
+            color: #334155; /* slate-700 */
+        }
         #sidebar {
             transition: margin 0.3s ease-in-out;
         }
         .sidebar-closed {
-            margin-left: -16rem; /* Matches w-64 */
+            margin-left: -16rem;
         }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <div class="flex h-screen overflow-hidden">
-        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 z-20">
             <div class="p-6">
                 <div class="flex items-center gap-3 text-blue-600">
                     <i class="fas fa-heart-pulse text-2xl"></i>
@@ -37,13 +42,16 @@
             </div>
 
             <nav class="flex-1 px-4 space-y-2 mt-4">
-                <a href="#" class="sidebar-item flex items-center gap-3 p-3 text-blue-600 font-semibold rounded-lg">
+                <a href="{{ route('dashboard') }}" 
+                   class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('dashboard') ? 'sidebar-item-active' : 'text-slate-500' }}">
                     <i class="fas fa-th-large w-5"></i> Dashboard
                 </a>
-                <a href="#" class="sidebar-item flex items-center gap-3 p-3 text-slate-500 rounded-lg transition-all">
+
+                <a href="{{ route('clinic.records.index') }}" 
+                   class="sidebar-item flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->is('clinic/records*') ? 'sidebar-item-active' : 'text-slate-500' }}">
                     <i class="fas fa-user-injured w-5"></i> Patients
                 </a>
-                </nav>
+            </nav>
 
             <div class="p-4 border-t border-slate-100">
                 <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl">
@@ -62,7 +70,11 @@
                     <button id="toggleBtn" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors">
                         <i class="fas fa-bars text-lg"></i>
                     </button>
-                    <h1 class="text-lg font-semibold text-slate-700">Clinic Overview</h1>
+                    <h1 class="text-lg font-semibold text-slate-700">
+                        @if(request()->is('dashboard')) Clinic Overview 
+                        @elseif(request()->is('clinic/records/create')) Add Patient Record
+                        @else Patient Management @endif
+                    </h1>
                 </div>
                 
                 <div class="flex items-center gap-4">
@@ -70,11 +82,18 @@
                         <i class="fas fa-bell"></i>
                     </button>
                     <div class="h-8 w-px bg-slate-200"></div>
-                    <span class="text-sm font-medium text-slate-600">Fri, Mar 27, 2026</span>
+                    <span class="text-sm font-medium text-slate-600">{{ now()->format('D, M d, Y') }}</span>
                 </div>
             </header>
 
             <div class="p-8">
+                @if(session('success'))
+                    <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-3 shadow-sm">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="text-sm font-medium">{{ session('success') }}</span>
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
         </main>
@@ -88,7 +107,6 @@
             sidebar.classList.toggle('sidebar-closed');
         });
 
-        // Optional: Close sidebar automatically on small screens
         if (window.innerWidth < 768) {
             sidebar.classList.add('sidebar-closed');
         }

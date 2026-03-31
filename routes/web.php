@@ -1,24 +1,34 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KenBuratController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentMedicalRecordClinicController;
 
-Route::prefix('ken-burat')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-    Route::get('/', [KenBuratController::class, 'index'])->name('ken-burat.index');
-
-    Route::get('/create', [KenBuratController::class, 'create'])->name('ken-burat.create');
-
-    Route::post('/store', [KenBuratController::class, 'store'])->name('ken-burat.store');
-
-    Route::get('/edit/{id}', [KenBuratController::class, 'edit'])->name('ken-burat.edit');
-
-    Route::put('/update/{id}', [KenBuratController::class, 'update'])->name('ken-burat.update');
-
-    Route::delete('/delete/{id}', [KenBuratController::class, 'destroy'])->name('ken-burat.delete');
+// I-redirect ang main domain sa dashboard para hindi mag-404
+Route::get('/', function () {
+    return redirect()->route('dashboard');
 });
 
-use App\Http\Controllers\DashboardController;
+// Main Dashboard Route
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
+/**
+ * MODULE 1: Student Medical Records
+ * Gagamit tayo ng Route::resource para sa malinis na URL structure.
+ * Sinisiguro nito na gumagana ang Index, Create, Store, Show, Edit, at Update functions.
+ */
+Route::resource('clinic/records', StudentMedicalRecordClinicController::class)->names([
+    'index'   => 'clinic.records.index',   // Listahan ng Records
+    'create'  => 'clinic.records.create',  // Form para sa Add Patient
+    'store'   => 'clinic.records.store',   // Pag-save ng bagong Record
+    'show'    => 'clinic.records.show',    // Pag-view ng Medical History
+    'edit'    => 'clinic.records.edit',    // Form para sa Pag-update
+    'update'  => 'clinic.records.update',  // Pag-save ng mga pagbabago
+    'destroy' => 'clinic.records.destroy', // (Optional) Pag-delete ng record
+]);
