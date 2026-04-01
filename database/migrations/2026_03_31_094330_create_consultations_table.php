@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('consultations', function (Blueprint $table) {
         $table->id();
         // Naka-link ito sa Module 1 (Student Medical Records)
-        $table->foreignId('student_medical_record_id')->constrained('student_medical_record_clinics')->onDelete('cascade');
+        $table->foreignId('student_medical_record_id')->references('id')->on('student_medical_record_clinics')->onDelete('cascade');
         $table->text('symptoms');
         $table->text('diagnosis');
         $table->text('treatment'); // Record treatment
