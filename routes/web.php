@@ -5,13 +5,16 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentMedicalRecordClinicController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\MedicineController; 
+use App\Http\Controllers\MedicalClearanceController;
+use App\Http\Controllers\HealthIncidentController; // Inimport para sa Module 5
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-// I-redirect ang main domain sa dashboard para hindi mag-404
+// I-redirect ang main domain sa dashboard
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
@@ -51,4 +54,30 @@ Route::resource('clinic/medicines', MedicineController::class)->names([
     'edit'    => 'clinic.medicines.edit',
     'update'  => 'clinic.medicines.update',
     'destroy' => 'clinic.medicines.destroy',
+]);
+
+/**
+ * MODULE 4: Medical Clearance Issuance
+ */
+Route::resource('clinic/clearances', MedicalClearanceController::class)->names([
+    'index'   => 'clinic.clearances.index',
+    'create'  => 'clinic.clearances.create',
+    'store'   => 'clinic.clearances.store',
+    'show'    => 'clinic.clearances.show',
+    'destroy' => 'clinic.clearances.destroy',
+]);
+
+// Custom Routes para sa Approval at Printing (Module 4)
+Route::post('clinic/clearances/{id}/approve', [MedicalClearanceController::class, 'approve'])->name('clinic.clearances.approve');
+Route::get('clinic/clearances/{id}/print', [MedicalClearanceController::class, 'print'])->name('clinic.clearances.print');
+
+/**
+ * MODULE 5: Health Incident Reporting
+ */
+Route::resource('clinic/incidents', HealthIncidentController::class)->names([
+    'index'   => 'clinic.incidents.index',
+    'create'  => 'clinic.incidents.create',
+    'store'   => 'clinic.incidents.store',
+    'show'    => 'clinic.incidents.show',
+    'destroy' => 'clinic.incidents.destroy',
 ]);

@@ -9,7 +9,7 @@
                     <h1 class="text-3xl font-bold text-slate-800 mb-2">Consultation History</h1>
                     <p class="text-slate-500 font-medium text-sm flex items-center gap-2">
                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        Module 2: View and manage student check-up records
+                        View and manage student check-up records
                     </p>
                 </div>
                 <a href="{{ route('clinic.consultations.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg shadow-blue-200 flex items-center gap-2 active:scale-95">

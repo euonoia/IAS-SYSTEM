@@ -21,6 +21,7 @@
                 <th class="px-6 py-4">Current Stock</th>
                 <th class="px-6 py-4">Expiration</th>
                 <th class="px-6 py-4">Status</th>
+                <th class="px-6 py-4 text-right">Actions</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
@@ -43,10 +44,22 @@
                         <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-lg border border-emerald-100 uppercase">Available</span>
                     @endif
                 </td>
+                <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
+                    <a href="{{ route('clinic.medicines.edit', $med->id) }}" class="text-slate-400 hover:text-amber-600 transition-colors p-2">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form action="{{ route('clinic.medicines.destroy', $med->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to remove this medicine?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-slate-400 hover:text-red-600 transition-colors p-2">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="px-6 py-12 text-center text-slate-400 italic">
+                <td colspan="6" class="px-6 py-12 text-center text-slate-400 italic">
                     No medicines in inventory yet.
                 </td>
             </tr>

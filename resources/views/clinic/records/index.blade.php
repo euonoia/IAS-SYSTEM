@@ -17,6 +17,7 @@
         <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
             <tr>
                 <th class="px-6 py-4">Student ID</th>
+                <th class="px-6 py-4">Name</th>
                 <th class="px-6 py-4">Blood Type</th>
                 <th class="px-6 py-4">Allergies</th>
                 <th class="px-6 py-4">Chronic Illness</th>
@@ -27,6 +28,7 @@
             @forelse($records as $record)
             <tr class="hover:bg-slate-50/50 transition-colors">
                 <td class="px-6 py-4 text-sm font-semibold text-slate-700">{{ $record->student_id }}</td>
+                <td class="px-6 py-4 text-sm text-slate-700">{{ $record->name }}</td>
                 <td class="px-6 py-4 text-sm text-slate-600">{{ $record->blood_type ?? '-' }}</td>
                 <td class="px-6 py-4 text-sm text-red-500">{{ Str::limit($record->allergies ?? 'None', 30) }}</td>
                 <td class="px-6 py-4 text-sm text-slate-600">{{ Str::limit($record->chronic_illness ?? 'None', 30) }}</td>

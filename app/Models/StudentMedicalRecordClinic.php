@@ -11,6 +11,7 @@ class StudentMedicalRecordClinic extends Model
     // Idagdag ang mga columns na ito para payagan ang pag-save
     protected $fillable = [
         'student_id',
+        'name',
         'blood_type',
         'allergies',
         'chronic_illness',

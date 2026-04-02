@@ -25,6 +25,7 @@ class StudentMedicalRecordClinicController extends Controller
     {
         $validated = $request->validate([
             'student_id'      => 'required|unique:student_medical_record_clinics,student_id',
+            'name'            => 'required|string|max:255',
             'blood_type'      => 'nullable|string',
             'allergies'       => 'nullable|string',
             'chronic_illness' => 'nullable|string',
@@ -59,6 +60,7 @@ class StudentMedicalRecordClinicController extends Controller
         
         $validated = $request->validate([
             'student_id'      => 'required|unique:student_medical_record_clinics,student_id,'.$id,
+            'name'            => 'required|string|max:255',
             'blood_type'      => 'nullable|string',
             'allergies'       => 'nullable|string',
             'chronic_illness' => 'nullable|string',

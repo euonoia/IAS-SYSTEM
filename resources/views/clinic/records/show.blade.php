@@ -20,7 +20,8 @@
             <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-3xl font-bold mb-4 uppercase">
                 {{ substr($record->student_id, -2) }}
             </div>
-            <h3 class="text-lg font-bold text-slate-800">{{ $record->student_id }}</h3>
+            <h3 class="text-lg font-bold text-slate-800">{{ $record->name }}</h3>
+            <p class="text-sm text-slate-500 mb-2">{{ $record->student_id }}</p>
             <span class="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase mt-2">Active Student</span>
         </div>
 

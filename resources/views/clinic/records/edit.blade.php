@@ -25,6 +25,13 @@
                     <p class="text-[10px] text-slate-400 mt-1 italic">Student ID cannot be changed once created.</p>
                 </div>
 
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Student Name</label>
+                    <input type="text" name="name" value="{{ $record->name }}" required 
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        placeholder="e.g. Juan Dela Cruz">
+                </div>
+
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Blood Type</label>
                     <select name="blood_type" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none transition-all bg-white">
