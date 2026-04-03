@@ -3,71 +3,57 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
     <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('clinic.medicines.index') }}" class="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-blue-600 transition-all active:scale-95">
+        <a href="{{ route('clinic.medicines.index') }}" class="p-2 bg-white/10 border border-white/20 rounded-xl text-slate-200 hover:text-white transition-colors">
             <i class="fas fa-arrow-left"></i>
         </a>
         <div>
-            <h2 class="text-2xl font-bold text-slate-800">Add New Medicine</h2>
-            <p class="text-sm text-slate-500 font-medium">Inventory Management & Stock-in</p>
+            <h2 class="text-2xl font-bold text-white">Add New Medicine</h2>
+            <p class="text-sm text-slate-200 font-medium">Inventory Management & Stock-in</p>
         </div>
     </div>
 
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
         <form action="{{ route('clinic.medicines.store') }}" method="POST" class="p-8">
             @csrf
-            <div class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Medicine Name</label>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Medicine Name</label>
                     <input type="text" name="name" required 
-                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-300" 
-                        placeholder="e.g. Paracetamol, Amoxicillin">
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
+                        placeholder="Enter medicine name (e.g. Paracetamol)">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Initial Stock Quantity</label>
-                        <div class="relative">
-                            <input type="number" name="stock_quantity" required 
-                                class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all" 
-                                placeholder="0">
-                            <span class="absolute right-4 top-3 text-slate-400 text-sm italic font-medium">pcs/units</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1 text-amber-600">Low Stock Alert at</label>
-                        <input type="number" name="low_stock_threshold" value="10" required 
-                            class="w-full px-4 py-3 rounded-2xl border border-amber-100 bg-amber-50/30 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 outline-none transition-all" 
-                            placeholder="10">
-                    </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Initial Stock Quantity</label>
+                    <input type="number" name="stock_quantity" required min="0"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
+                        placeholder="0">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Expiration Date</label>
-                        <div class="relative">
-                            <input type="date" name="expiration_date" required 
-                                class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-600">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Batch / Lot Number</label>
-                        <input type="text" name="batch_number" 
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-mono text-sm uppercase" 
-                            placeholder="Optional (e.g. B-2024-X)">
-                    </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Low Stock Alert Level</label>
+                    <input type="number" name="low_stock_threshold" required min="0"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
+                        placeholder="5">
                 </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Expiration Date</label>
+                    <input type="date" name="expiration_date" required 
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all">
+                </div>
+
+                {{-- INALIS NA ANG BATCH NO. FIELD DITO DAHIL AUTOMATIC NA ITO SA CONTROLLER --}}
             </div>
 
-            <div class="flex items-center justify-end gap-4 mt-10 pt-8 border-t border-slate-100">
+            <div class="flex items-center justify-end gap-4 mt-8 pt-8 border-t border-slate-100/20">
                 <a href="{{ route('clinic.medicines.index') }}" 
-                   class="text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Discard</a>
+                   class="text-sm font-bold text-slate-400 hover:text-slate-300 transition-colors">Discard</a>
                 <button type="submit" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-2xl shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center gap-2">
-                    <i class="fas fa-check"></i>
-                    Save to Inventory
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Register Medicine
                 </button>
             </div>
         </form>

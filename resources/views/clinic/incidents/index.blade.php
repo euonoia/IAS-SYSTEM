@@ -1,18 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-between items-center mb-8">
-    <div>
-        <h2 class="text-2xl font-bold text-slate-800">Health Incident Reports</h2>
-        <p class="text-sm text-slate-500 font-medium"> Logs accidents, injuries, and emergencies</p>
-    </div>
+<div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl p-8 mb-8">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-white">Health Incident Reports</h2>
+            <p class="text-sm text-slate-200 font-medium">Logs accidents, injuries, and emergencies</p>
+        </div>
     
-    <a href="{{ route('clinic.incidents.create') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-red-200 flex items-center gap-2 transition-all active:scale-95">
+    <a href="{{ route('clinic.incidents.create') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-sm flex items-center gap-2 transition-all active:scale-95">
         <i class="fas fa-plus"></i> Record New Incident
     </a>
 </div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-bold">

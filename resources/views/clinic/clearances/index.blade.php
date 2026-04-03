@@ -1,20 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-between items-center mb-8">
-    <div>
-        <h2 class="text-2xl font-bold text-slate-800">Medical Clearances</h2>
-        <p class="text-sm text-slate-500 font-medium"> Health Certificate Issuance</p>
-    </div>
+<div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl p-8 mb-8">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-white">Medical Clearances</h2>
+            <p class="text-sm text-slate-200 font-medium">Health Certificate Issuance</p>
+        </div>
     
     <div class="flex gap-2">
-         <a href="{{ route('clinic.clearances.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-indigo-200 flex items-center gap-2 transition-all active:scale-95">
+         <a href="{{ route('clinic.clearances.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl shadow-sm flex items-center gap-2 transition-all active:scale-95">
             <i class="fas fa-plus"></i> New Clearance
         </a>
     </div>
 </div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-bold">

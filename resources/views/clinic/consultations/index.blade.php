@@ -1,25 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-8 border-b border-slate-100 pb-6">
-            <div class="flex justify-between items-center text-nowrap gap-4">
-                <div>
-                    <h1 class="text-3xl font-bold text-slate-800 mb-2">Consultation History</h1>
-                    <p class="text-slate-500 font-medium text-sm flex items-center gap-2">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        View and manage student check-up records
-                    </p>
-                </div>
-                <a href="{{ route('clinic.consultations.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-lg shadow-blue-200 flex items-center gap-2 active:scale-95">
+<div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl p-8 mb-8">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-white mb-2">Consultation History</h1>
+            <p class="text-slate-200 font-medium text-sm flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                View and manage student check-up records
+            </p>
+        </div>
+                <a href="{{ route('clinic.consultations.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-200 shadow-sm flex items-center gap-2 active:scale-95">
                     <i class="fas fa-plus"></i>
                     <span>New Consultation</span>
                 </a>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>

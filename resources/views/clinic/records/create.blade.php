@@ -3,37 +3,37 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
     <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('dashboard') }}" class="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-blue-600 transition-colors">
+        <a href="{{ route('dashboard') }}" class="p-2 bg-white/10 border border-white/20 rounded-xl text-slate-200 hover:text-white transition-colors">
             <i class="fas fa-arrow-left"></i>
         </a>
         <div>
-            <h2 class="text-2xl font-bold text-slate-800">New Medical Profile</h2>
-            <p class="text-sm text-slate-500 font-medium">Module 1: Student Medical Records</p>
+            <h2 class="text-2xl font-bold text-white">New Medical Profile</h2>
+            <p class="text-sm text-slate-200 font-medium">Module 1: Student Medical Records</p>
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
         <form action="{{ route('clinic.records.store') }}" method="POST" class="p-8">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Student ID Number</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Student ID Number</label>
                     <input type="text" name="student_id" required 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="e.g. 2026-1234">
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Student Name</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Student Name</label>
                     <input type="text" name="name" required 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="e.g. Juan Dela Cruz">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Blood Type</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Blood Type</label>
                     <select name="blood_type" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white">
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all">
                         <option value="">Select Blood Type</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
@@ -47,23 +47,23 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Chronic Illness</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Chronic Illness</label>
                     <input type="text" name="chronic_illness" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="e.g. Asthma, Diabetes (Optional)">
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Allergies</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Allergies</label>
                     <textarea name="allergies" rows="3" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="List any drug or food allergies..."></textarea>
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Additional Medical Notes</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Additional Medical Notes</label>
                     <textarea name="notes" rows="3" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="Any other important medical information..."></textarea>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 <a href="{{ route('dashboard') }}" class="text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">
                     Discard Changes
                 </a>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-200 transition-all transform active:scale-95">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95">
                     Save Record
                 </button>
             </div>

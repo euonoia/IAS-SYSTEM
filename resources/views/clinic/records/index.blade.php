@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-between items-center mb-8">
-    <div>
-        <h2 class="text-2xl font-bold text-slate-800">Patient Medical Records</h2>
-        <p class="text-sm text-slate-500 font-medium">Manage and view all student health profiles</p>
+<div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl p-8 mb-8">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-white">Patient Medical Records</h2>
+            <p class="text-sm text-slate-200 font-medium mt-1">Manage and view all student health profiles</p>
+        </div>
+        <a href="{{ route('clinic.records.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-sm transition-all flex items-center gap-2">
+            <i class="fas fa-plus"></i>
+            Add New Patient
+        </a>
     </div>
-    <a href="{{ route('clinic.records.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center gap-2">
-        <i class="fas fa-plus"></i>
-        Add New Patient
-    </a>
-</div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-    <table class="w-full text-left">
+    <div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
         <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
             <tr>
                 <th class="px-6 py-4">Student ID</th>
@@ -26,12 +28,12 @@
         </thead>
         <tbody class="divide-y divide-slate-100">
             @forelse($records as $record)
-            <tr class="hover:bg-slate-50/50 transition-colors">
-                <td class="px-6 py-4 text-sm font-semibold text-slate-700">{{ $record->student_id }}</td>
-                <td class="px-6 py-4 text-sm text-slate-700">{{ $record->name }}</td>
-                <td class="px-6 py-4 text-sm text-slate-600">{{ $record->blood_type ?? '-' }}</td>
-                <td class="px-6 py-4 text-sm text-red-500">{{ Str::limit($record->allergies ?? 'None', 30) }}</td>
-                <td class="px-6 py-4 text-sm text-slate-600">{{ Str::limit($record->chronic_illness ?? 'None', 30) }}</td>
+                <tr class="hover:bg-white/10 transition-colors">
+                <td class="px-6 py-4 text-sm font-semibold text-slate-200">{{ $record->student_id }}</td>
+                <td class="px-6 py-4 text-sm text-slate-200">{{ $record->name }}</td>
+                <td class="px-6 py-4 text-sm text-slate-300">{{ $record->blood_type ?? '-' }}</td>
+                <td class="px-6 py-4 text-sm text-red-300">{{ Str::limit($record->allergies ?? 'None', 30) }}</td>
+                <td class="px-6 py-4 text-sm text-slate-300">{{ Str::limit($record->chronic_illness ?? 'None', 30) }}</td>
                 <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
                     <a href="{{ route('clinic.records.show', $record->id) }}" class="text-slate-400 hover:text-blue-600 transition-colors p-2">
                         <i class="fas fa-eye"></i>

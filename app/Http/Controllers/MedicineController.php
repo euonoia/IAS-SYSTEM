@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str; // Import Str para sa random string
 
 class MedicineController extends Controller 
 {
     public function index() 
     {
-        // Kunin lahat ng gamot, unahin ang pinakabago
         $medicines = Medicine::latest()->get();
         return view('clinic.medicines.index', compact('medicines'));
     }
@@ -23,11 +23,14 @@ class MedicineController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'batch_number' => 'nullable|string|max:255',
             'stock_quantity' => 'required|integer|min:0',
             'low_stock_threshold' => 'required|integer|min:0',
             'expiration_date' => 'required|date',
         ]);
+
+        // AUTOMATIC MEDICINE NUMBER GENERATION
+        // Format: MED- + Timestamp (para unique)
+        $validated['batch_number'] = 'MED-' . time();
 
         Medicine::create($validated);
 
@@ -44,7 +47,6 @@ class MedicineController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'batch_number' => 'nullable|string|max:255',
             'stock_quantity' => 'required|integer|min:0',
             'low_stock_threshold' => 'required|integer|min:0',
             'expiration_date' => 'required|date',
@@ -59,8 +61,6 @@ class MedicineController extends Controller
     public function destroy(Medicine $medicine)
     {
         $medicine->delete();
-
-        return redirect()->route('clinic.medicines.index')
-                         ->with('success', 'Medicine removed from inventory successfully!');
+        return back()->with('success', 'Medicine removed from inventory.');
     }
 }
