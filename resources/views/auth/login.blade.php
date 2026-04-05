@@ -24,7 +24,7 @@
 
         <div class="glass p-8 rounded-[2.5rem] shadow-2xl">
             <h2 class="text-xl font-bold text-white mb-2 text-center">Authorized Access</h2>
-            <p class="text-slate-400 text-xs text-center mb-8 uppercase tracking-[0.2em] font-bold">Please enter your credentials</p>
+            <p class="text-slate-400 text-xs text-center mb-8 uppercase tracking-[0.2em] font-bold">Please enter your credentials. After password verification, a 6-digit code will be sent to your email.</p>
 
             @if(session('error'))
                 <div class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">

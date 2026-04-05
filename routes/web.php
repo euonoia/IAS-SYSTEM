@@ -10,6 +10,7 @@ use App\Http\Controllers\HealthIncidentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 
+<<<<<<< Updated upstream
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,8 @@ use App\Http\Controllers\ProfileController;
 */
 
 // Redirect root to dashboard or login based on authentication status
+=======
+>>>>>>> Stashed changes
 Route::get('/', function () {
     return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });
@@ -24,75 +27,35 @@ Route::get('/', function () {
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/login/otp', [AuthController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/verify-otp', [AuthController::class, 'verifyOTP'])->name('otp.verify');
+Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('otp.resend');
+Route::get('/back-to-login', [AuthController::class, 'backToLogin'])->name('back.to.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-    // Main Dashboard Route
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Profile & Settings Module
+    // Profile & Settings
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
     Route::put('/profile/settings', [ProfileController::class, 'updateClinicSettings'])->name('profile.settings.update');
 
-/**
- * MODULE 1: Student Medical Records
- */
-Route::resource('clinic/records', StudentMedicalRecordClinicController::class)->names([
-    'index'   => 'clinic.records.index',
-    'create'  => 'clinic.records.create',
-    'store'   => 'clinic.records.store',
-    'show'    => 'clinic.records.show',
-    'edit'    => 'clinic.records.edit',
-    'update'  => 'clinic.records.update',
-    'destroy' => 'clinic.records.destroy',  
-]);
+    // MODULE 1: Student Medical Records
+    Route::resource('clinic/records', StudentMedicalRecordClinicController::class)->names('clinic.records');
 
-/**
- * MODULE 2: Patient Consultations
- */
-Route::get('clinic/consultations', [ConsultationController::class, 'index'])->name('clinic.consultations.index');
-Route::get('clinic/consultations/create', [ConsultationController::class, 'create'])->name('clinic.consultations.create');
-Route::post('clinic/consultations', [ConsultationController::class, 'store'])->name('clinic.consultations.store');
-Route::get('clinic/consultations/{consultation}', [ConsultationController::class, 'show'])->name('clinic.consultations.show');
-Route::delete('clinic/consultations/{consultation}', [ConsultationController::class, 'destroy'])->name('clinic.consultations.destroy');
+    // MODULE 2: Patient Consultations
+    Route::resource('clinic/consultations', ConsultationController::class)->names('clinic.consultations');
 
-/**
- * MODULE 3: Medicine Inventory & Dispensing
- */
-Route::resource('clinic/medicines', MedicineController::class)->names([
-    'index'   => 'clinic.medicines.index',
-    'create'  => 'clinic.medicines.create',
-    'store'   => 'clinic.medicines.store',
-    'edit'    => 'clinic.medicines.edit',
-    'update'  => 'clinic.medicines.update',
-    'destroy' => 'clinic.medicines.destroy',
-]);
+    // MODULE 3: Medicine Inventory
+    Route::resource('clinic/medicines', MedicineController::class)->names('clinic.medicines');
 
-/**
- * MODULE 4: Medical Clearance Issuance
- */
-Route::resource('clinic/clearances', MedicalClearanceController::class)->names([
-    'index'   => 'clinic.clearances.index',
-    'create'  => 'clinic.clearances.create',
-    'store'   => 'clinic.clearances.store',
-    'show'    => 'clinic.clearances.show',
-    'destroy' => 'clinic.clearances.destroy',
-]);
+    // MODULE 4: Medical Clearance
+    Route::resource('clinic/clearances', MedicalClearanceController::class)->names('clinic.clearances');
+    Route::post('clinic/clearances/{id}/approve', [MedicalClearanceController::class, 'approve'])->name('clinic.clearances.approve');
+    Route::get('clinic/clearances/{id}/print', [MedicalClearanceController::class, 'print'])->name('clinic.clearances.print');
 
-// Custom Routes para sa Approval at Printing (Module 4)
-Route::post('clinic/clearances/{id}/approve', [MedicalClearanceController::class, 'approve'])->name('clinic.clearances.approve');
-Route::get('clinic/clearances/{id}/print', [MedicalClearanceController::class, 'print'])->name('clinic.clearances.print');
-
-/**
- * MODULE 5: Health Incident Reporting
- */
-Route::resource('clinic/incidents', HealthIncidentController::class)->names([
-    'index'   => 'clinic.incidents.index',
-    'create'  => 'clinic.incidents.create',
-    'store'   => 'clinic.incidents.store',
-    'show'    => 'clinic.incidents.show',
-    'destroy' => 'clinic.incidents.destroy',
-]);
+    // MODULE 5: Health Incident
+    Route::resource('clinic/incidents', HealthIncidentController::class)->names('clinic.incidents');
 });

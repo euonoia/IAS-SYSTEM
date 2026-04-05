@@ -55,10 +55,7 @@
                             <label class="block text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-2 font-bold">Email Address</label>
                             <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full bg-white/5 border border-white/10 rounded-3xl py-4 px-5 text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" />
                         </div>
-                        <div class="lg:col-span-2">
-                            <label class="block text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-2 font-bold">Student / Employee ID</label>
-                            <input type="text" name="student_employee_id" value="{{ old('student_employee_id', $user->student_employee_id) }}" class="w-full bg-white/5 border border-white/10 rounded-3xl py-4 px-5 text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" />
-                        </div>
+                        
                     </div>
 
                     <div>
