@@ -40,12 +40,6 @@
                         <a href="{{ route('clinic.medicines.edit', $med->id) }}" class="text-slate-400 hover:text-amber-300 transition-colors p-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <form action="{{ route('clinic.medicines.destroy', $med->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to remove this medicine?');">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="text-slate-400 hover:text-red-400 transition-colors p-2">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
                 @empty

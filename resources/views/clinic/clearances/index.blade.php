@@ -67,13 +67,6 @@
                         </a>
                         @endif
                         
-                        {{-- DELETE BUTTON --}}
-                        <form action="{{ route('clinic.clearances.destroy', $c->id) }}" method="POST" onsubmit="return confirm('Sigurado ka bang buburahin ito?')">
-                            @csrf @method('DELETE')
-                            <button class="p-2 text-slate-400 hover:text-red-600 transition-all">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
                 @empty

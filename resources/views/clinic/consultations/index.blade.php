@@ -58,13 +58,6 @@
                                     <a href="{{ route('clinic.consultations.show', $item->id) }}" class="p-2 text-slate-400 hover:text-blue-300 hover:bg-blue-900/40 rounded-xl transition-all" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <form action="{{ route('clinic.consultations.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this record?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-900/40 rounded-xl transition-all">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>

@@ -31,13 +31,6 @@
                         placeholder="0">
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Low Stock Alert Level</label>
-                    <input type="number" name="low_stock_threshold" required min="0"
-                        class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
-                        placeholder="5">
-                </div>
-
                 <div class="md:col-span-2">
                     <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Expiration Date</label>
                     <input type="date" name="expiration_date" required 

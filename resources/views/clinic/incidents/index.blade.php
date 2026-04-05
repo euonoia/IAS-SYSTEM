@@ -47,12 +47,6 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 text-right flex justify-end gap-2">
-                         <form action="{{ route('clinic.incidents.destroy', $i->id) }}" method="POST" onsubmit="return confirm('Delete this incident report?')">
-                            @csrf @method('DELETE')
-                            <button class="p-2 text-slate-400 hover:text-red-400 transition-all">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
                 @empty
