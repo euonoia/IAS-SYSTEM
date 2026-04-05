@@ -15,8 +15,8 @@
 <body class="flex items-center justify-center min-h-screen p-6">
     <div class="w-full max-w-md">
         <div class="text-center mb-10">
-            <div class="inline-flex w-16 h-16 rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/40 mb-4">
-                <img src="{{ asset('images/rxcel-logo.png') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
+            <div class="inline-flex w-16 h-16 rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/40 mb-4 bg-transparent">
+                <img src="{{ asset('images/cropped.PNG') }}" alt="Rxcel Logo" class="w-full h-full object-contain mix-blend-lighten">
             </div>
             <h1 class="text-3xl font-extrabold text-white italic">Rx<span class="text-blue-500">cel</span></h1>
             <p class="text-slate-500 text-sm mt-2 font-medium">Clinic Management System</p>
@@ -27,8 +27,16 @@
             <p class="text-slate-400 text-xs text-center mb-8 uppercase tracking-[0.2em] font-bold">Please enter your credentials</p>
 
             @if(session('error'))
-                <div class="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold rounded-xl text-center">
-                    {{ session('error') }}
+                <div class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p class="text-red-400 text-sm font-bold text-center">{{ session('error') }}</p>
+                    @if(strpos(session('error'), 'attempt') !== false)
+                        <div class="mt-3 pt-3 border-t border-red-500/20">
+                            <p class="text-red-300 text-xs text-center font-semibold">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Account will be locked after max attempts
+                            </p>
+                        </div>
+                    @endif
                 </div>
             @endif
 

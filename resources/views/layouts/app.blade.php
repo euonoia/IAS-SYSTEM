@@ -46,8 +46,8 @@
         <aside id="sidebar" class="w-64 fixed inset-y-0 left-0 z-50 flex flex-col shadow-2xl transition-transform duration-300">
             <div class="p-8 flex flex-col h-full">
                 <div class="flex items-center gap-3 mb-10">
-                    <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-blue-500/40">
-                        <img src="{{ asset('images/rxcel-logo.png') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
+                    <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-blue-500/40 bg-transparent">
+                        <img src="{{ asset('images/cropped.PNG') }}" alt="Rxcel Logo" class="w-10 h-10 object-contain mix-blend-lighten">
                     </div>
                     <h1 class="text-2xl font-extrabold tracking-tight text-white italic">Rxcel</h1>
                 </div>

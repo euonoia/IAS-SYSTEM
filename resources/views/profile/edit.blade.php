@@ -30,7 +30,10 @@
                             <label class="block text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-2">Email Address</label>
                             <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full bg-white/5 border border-white/10 rounded-3xl py-4 px-5 text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                         </div>
-                       
+                        <div class="lg:col-span-2">
+                            <label class="block text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-2">Student / Employee ID</label>
+                            <input type="text" name="student_employee_id" value="{{ old('student_employee_id', $user->student_employee_id) }}" class="w-full bg-white/5 border border-white/10 rounded-3xl py-4 px-5 text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        </div>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-2 items-end">
@@ -38,7 +41,7 @@
                             <label class="block text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-2">Profile Picture</label>
                             <div class="flex items-center gap-4 p-4 bg-slate-900/80 border border-white/10 rounded-3xl">
                                 <div class="w-24 h-24 rounded-3xl overflow-hidden bg-slate-800 flex items-center justify-center">
-                                    <img :src="preview || '{{ asset('images/rxcel-logo.png') }}'" alt="Avatar Preview" class="w-full h-full object-cover" />
+                                    <img :src="preview || '{{ asset('images/cropped.PNG') }}'" alt="Avatar Preview" :class="preview ? 'object-cover' : 'object-contain mix-blend-lighten'" class="w-full h-full" />
                                 </div>
                                 <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-3 rounded-3xl transition">
                                     Upload Avatar
