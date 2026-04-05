@@ -7,6 +7,7 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\MedicineController; 
 use App\Http\Controllers\MedicalClearanceController;
 use App\Http\Controllers\HealthIncidentController; // Inimport para sa Module 5
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,11 @@ use App\Http\Controllers\HealthIncidentController; // Inimport para sa Module 5
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
+
+// Authentication Routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Main Dashboard Route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -79,12 +79,11 @@ class MedicalClearanceController extends Controller
     }
 
     /**
-     * MODULE 4: Placeholder para sa Print Function (Optional)
+     * MODULE 4: Print the Clearance Certificate
      */
     public function print($id)
     {
         $clearance = MedicalClearance::with('student_medical_record')->findOrFail($id);
-        // Dito ilalagay ang logic para sa printing o view ng certificate
-        return "Printing Clearance: " . $clearance->clearance_number;
+        return view('clinic.clearances.print', compact('clearance'));
     }
 }

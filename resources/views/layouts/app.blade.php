@@ -57,6 +57,7 @@
             color: #ffffff;
             background: rgba(59, 130, 246, 0.2);
         }
+        /* Table Styles from your original code */
         .bg-white\/10 table th,
         .bg-white\/10 table td,
         .bg-white\/10 tbody tr {
@@ -68,64 +69,88 @@
         .bg-white\/10 tbody tr:not(:last-child) {
             border-bottom: 1px solid rgba(148, 163, 184, 0.2);
         }
-        .bg-white\/10 .text-slate-700,
-        .bg-white\/10 .text-slate-800,
-        .bg-white\/10 .text-slate-900 {
-            color: #e2e8f0 !important;
-        }
-        .bg-white\/10 table thead tr,
-        .bg-white\/10 table thead {
-            background: rgba(255,255,255,0.12) !important;
-        }
-        .bg-white\/10 table tbody tr:hover {
-            background: rgba(255,255,255,0.08) !important;
-        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100">
     <div class="min-h-screen flex">
-        <aside id="sidebar" class="w-64 bg-slate-900/80 backdrop-blur-md border-r border-white/10 fixed h-full z-50">
-            <div class="p-6">
+        {{-- SIDEBAR WITH LOGOUT --}}
+        <aside id="sidebar" class="w-64 bg-slate-900/80 backdrop-blur-md border-r border-white/10 fixed h-full z-50 flex flex-col">
+            <div class="p-6 flex-1 flex flex-col">
                 <div class="flex items-center gap-3 px-2 mb-10">
                     <div class="w-10 h-10 bg-blue-500/80 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/40">
                         <i class="fas fa-plus-square text-xl"></i>
                     </div>
-                    <span class="text-xl font-extrabold tracking-tight text-white">Rxcel<span class="text-blue-400">.</span></span>
+                    <span class="text-xl font-extrabold tracking-tight text-white">Rxcel<span class="text-blue-400"></span></span>
                 </div>
 
-                <nav class="space-y-1">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('dashboard') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                <nav class="space-y-1 flex-1">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('dashboard') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-th-large w-5"></i> Dashboard
                     </a>
 
                     <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Clinic Services</div>
                     
-                    <a href="{{ route('clinic.records.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.records.*') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                    <a href="{{ route('clinic.records.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.records.*') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-user-injured w-5"></i> Patient Records
                     </a>
 
-                    <a href="{{ route('clinic.consultations.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.consultations.*') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                    <a href="{{ route('clinic.consultations.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.consultations.*') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-stethoscope w-5"></i> Consultations
                     </a>
 
-                    <a href="{{ route('clinic.medicines.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.medicines.*') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                    <a href="{{ route('clinic.medicines.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.medicines.*') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-pills w-5"></i> Inventory
                     </a>
 
-                    <a href="{{ route('clinic.clearances.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.clearances.*') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                    <a href="{{ route('clinic.clearances.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.clearances.*') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-file-medical w-5"></i> Medical Clearance
                     </a>
 
-                    <a href="{{ route('clinic.incidents.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.incidents.*') ? 'sidebar-item-active' : 'text-slate-200 hover:bg-white/10' }}">
+                    <a href="{{ route('clinic.incidents.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium {{ request()->routeIs('clinic.incidents.*') ? 'sidebar-item-active' : '' }}">
                         <i class="fas fa-ambulance w-5"></i> Health Incidents
                     </a>
                 </nav>
+
+                {{-- NEW: LOGOUT BUTTON AT THE BOTTOM --}}
+                <div class="mt-auto pt-6 border-t border-white/5">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-400 hover:bg-red-500/10 transition-all group">
+                            <i class="fas fa-sign-out-alt w-5 group-hover:-translate-x-1 transition-transform"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
             </div>
         </aside>
 
         <main class="flex-1 lg:ml-64 transition-all duration-300 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+            {{-- HEADER WITH NOTIF AND PROFILE --}}
             <header class="h-20 bg-white/5 backdrop-blur-md border-b border-slate-700 sticky top-0 z-40 px-8 flex items-center justify-between">
-                <button id="toggleBtn" class="p-2 hover:bg-slate-800/50 rounded-lg text-slate-400"><i class="fas fa-bars"></i></button>
+                <button id="toggleBtn" class="p-2 hover:bg-slate-800/50 rounded-lg text-slate-400">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="flex items-center gap-5">
+                    {{-- NEW: NOTIFICATION BUTTON --}}
+                    <button class="relative p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-slate-400 transition-all">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-slate-900"></span>
+                    </button>
+
+                    {{-- NEW: PROFILE LOGO SECTION --}}
+                    <div class="flex items-center gap-3 pl-5 border-l border-white/10">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-[11px] font-bold text-white leading-none">Clinic Admin</p>
+                            <p class="text-[9px] text-slate-500 font-medium mt-1 uppercase tracking-wider">Health Officer</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 p-[2px] shadow-lg shadow-blue-500/20">
+                            <div class="w-full h-full rounded-[10px] bg-slate-900 flex items-center justify-center overflow-hidden">
+                                <i class="fas fa-user text-blue-400 text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </header>
 
             <div class="p-8">
@@ -148,63 +173,42 @@
         const toggleBtn = document.getElementById('toggleBtn');
 
         function showSidebar() {
-            sidebar.classList.remove('sidebar-closed');
-            sidebar.classList.remove('sidebar-collapsed');
+            sidebar.classList.remove('sidebar-closed', 'sidebar-collapsed');
             if (window.innerWidth < 1024) {
                 sidebar.classList.add('sidebar-fullscreen');
-                main.classList.remove('ml-0');
-                main.classList.add('lg:ml-0');
             } else {
-                sidebar.classList.remove('sidebar-fullscreen');
-                main.classList.remove('ml-0');
                 main.classList.add('lg:ml-64');
             }
         }
 
         function hideSidebar() {
             sidebar.classList.add('sidebar-closed');
-            sidebar.classList.remove('sidebar-fullscreen');
             if (window.innerWidth < 1024) {
-                main.classList.remove('lg:ml-64');
-                main.classList.add('ml-0');
+                sidebar.classList.remove('sidebar-fullscreen');
             } else {
                 sidebar.classList.add('sidebar-collapsed');
                 main.classList.remove('lg:ml-64');
-                main.classList.add('ml-0');
             }
         }
 
-        function toggleSidebar() {
+        toggleBtn.addEventListener('click', () => {
             if (sidebar.classList.contains('sidebar-closed') || sidebar.classList.contains('sidebar-collapsed')) {
                 showSidebar();
             } else {
                 hideSidebar();
             }
-        }
-
-        toggleBtn.addEventListener('click', toggleSidebar);
+        });
 
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('sidebar-fullscreen');
-                sidebar.classList.remove('sidebar-closed');
-                sidebar.classList.remove('sidebar-collapsed');
+                sidebar.classList.remove('sidebar-fullscreen', 'sidebar-closed', 'sidebar-collapsed');
                 main.classList.add('lg:ml-64');
-                main.classList.remove('ml-0');
             } else {
-                if (!sidebar.classList.contains('sidebar-fullscreen') && !sidebar.classList.contains('sidebar-closed')) {
-                    sidebar.classList.add('sidebar-fullscreen');
-                }
-                main.classList.remove('lg:ml-64');
+                hideSidebar();
             }
         });
 
-        // initialize:
-        if (window.innerWidth < 1024) {
-            hideSidebar();
-        } else {
-            showSidebar();
-        }
+        if (window.innerWidth < 1024) hideSidebar();
     </script>
 </body>
 </html>
