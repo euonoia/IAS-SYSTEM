@@ -144,7 +144,6 @@
     </div>
 </div>
 
-<<<<<<< Updated upstream
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -158,7 +157,6 @@
     });
 </script>
 @endsection
-=======
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const medicineSelect = document.getElementById('medicine_id');
@@ -219,5 +217,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
->>>>>>> Stashed changes
