@@ -13,6 +13,24 @@
         </a>
     </div>
 
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <input type="text" id="search-input" value="{{ $search ?? '' }}" 
+                       placeholder="Search incidents by type, description, location, first aid, action, reporter, or student name/ID..." 
+                       class="w-full px-4 py-3 bg-slate-900/80 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+            </div>
+            <button type="button" id="clear-search" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-xl shadow-sm transition-all flex items-center gap-2 {{ empty($search) ? 'hidden' : '' }}">
+                <i class="fas fa-times"></i> Clear
+            </button>
+        </div>
+        <div id="search-results" class="text-slate-300 text-sm mt-2 {{ empty($search) ? 'hidden' : '' }}">
+            <i class="fas fa-info-circle mr-1"></i>
+            Showing results for: <strong id="search-term">"{{ $search ?? '' }}"</strong> (<span id="total-results">{{ $incidents->total() }}</span> results)
+        </div>
+    </div>
+
     <div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -26,7 +44,7 @@
                         <th class="px-6 py-4">Reported By</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-800">
+                <tbody id="incidents-table-body" class="divide-y divide-slate-800">
                     @forelse($incidents as $i)
                     <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors">
                         {{-- Date & Time --}}
@@ -82,5 +100,92 @@
             </table>
         </div>
     </div>
+
+    <!-- Pagination -->
+    @if($incidents->hasPages())
+    <div class="mt-6 flex justify-center">
+        {{ $incidents->appends(request()->query())->links() }}
+    </div>
+    @endif
 </div>
+
+{{-- Real-time Search JavaScript --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const clearButton = document.getElementById('clear-search');
+    const searchResults = document.getElementById('search-results');
+    const searchTerm = document.getElementById('search-term');
+    const totalResults = document.getElementById('total-results');
+    const tableBody = document.getElementById('incidents-table-body');
+    const paginationContainer = document.querySelector('.mt-6.flex.justify-center');
+
+    let searchTimeout;
+
+    function performSearch(searchValue) {
+        tableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400"><div class="flex flex-col items-center"><i class="fas fa-spinner fa-spin text-2xl mb-4"></i><p class="text-sm">Searching...</p></div></td></tr>';
+
+        fetch(`{{ route('clinic.incidents.index') }}?search=${encodeURIComponent(searchValue)}`, {
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = data.html;
+            if (paginationContainer) paginationContainer.innerHTML = data.pagination;
+            if (searchValue.trim()) {
+                searchTerm.textContent = `"${searchValue}"`;
+                totalResults.textContent = data.total;
+                searchResults.classList.remove('hidden');
+                clearButton.classList.remove('hidden');
+            } else {
+                searchResults.classList.add('hidden');
+                clearButton.classList.add('hidden');
+            }
+            bindPaginationLinks();
+        })
+        .catch(error => {
+            tableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-12 text-center text-red-400"><div class="flex flex-col items-center"><i class="fas fa-exclamation-triangle text-2xl mb-4"></i><p class="text-sm">Search failed. Please try again.</p></div></td></tr>';
+        });
+    }
+
+    function bindPaginationLinks() {
+        document.querySelectorAll('.mt-6.flex.justify-center a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = new URL(this.href);
+                const searchValue = searchInput.value;
+                if (searchValue) url.searchParams.set('search', searchValue);
+                fetch(url, {headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}})
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = data.html;
+                    if (paginationContainer) paginationContainer.innerHTML = data.pagination;
+                    bindPaginationLinks();
+                });
+            });
+        });
+    }
+
+    searchInput.addEventListener('input', function() {
+        const searchValue = this.value.trim();
+        clearTimeout(searchTimeout);
+        if (searchValue) {
+            clearButton.classList.remove('hidden');
+        } else {
+            clearButton.classList.add('hidden');
+            searchResults.classList.add('hidden');
+        }
+        searchTimeout = setTimeout(() => performSearch(searchValue), 300);
+    });
+
+    clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        clearButton.classList.add('hidden');
+        searchResults.classList.add('hidden');
+        performSearch('');
+    });
+
+    bindPaginationLinks();
+});
+</script>
 @endsection

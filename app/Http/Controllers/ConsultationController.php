@@ -13,15 +13,46 @@ class ConsultationController extends Controller
     /**
      * Display a listing of the consultations.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+        
         // Ginamit ang with('student_medical_record') para maiwasan ang N+1 query problem
         // Ito ang sumisiguro na laging may data ang student_id sa view
         $consultations = Consultation::with('student_medical_record', 'medicine')
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    // Search in symptoms, diagnosis, treatment
+                    $q->where('symptoms', 'ILIKE', "%{$search}%")
+                      ->orWhere('diagnosis', 'ILIKE', "%{$search}%")
+                      ->orWhere('treatment', 'ILIKE', "%{$search}%");
+                    
+                    // Search in related student data
+                    $q->orWhereHas('student_medical_record', function ($studentQuery) use ($search) {
+                        $studentQuery->where('student_id', 'ILIKE', "%{$search}%")
+                                   ->orWhere('name', 'ILIKE', "%{$search}%");
+                    });
+                    
+                    // Search in related medicine data
+                    $q->orWhereHas('medicine', function ($medicineQuery) use ($search) {
+                        $medicineQuery->where('name', 'ILIKE', "%{$search}%");
+                    });
+                });
+            })
             ->latest()
-            ->get();
+            ->paginate(15);
 
-        return view('clinic.consultations.index', compact('consultations'));
+        // Handle AJAX requests
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('clinic.consultations.partials.table', compact('consultations'))->render(),
+                'pagination' => $consultations->appends($request->query())->links()->toHtml(),
+                'total' => $consultations->total(),
+                'search' => $search
+            ]);
+        }
+
+        return view('clinic.consultations.index', compact('consultations', 'search'));
     }
 
     /**

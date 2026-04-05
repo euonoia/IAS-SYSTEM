@@ -8,10 +8,30 @@ use Illuminate\Support\Str;
 
 class MedicineController extends Controller 
 {
-    public function index() 
+    public function index(Request $request) 
     {
-        $medicines = Medicine::latest()->get();
-        return view('clinic.medicines.index', compact('medicines'));
+        $search = $request->get('search');
+        
+        $medicines = Medicine::query()
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'ILIKE', "%{$search}%")
+                      ->orWhere('batch_number', 'ILIKE', "%{$search}%")
+                      ->orWhere('expiration_date', 'ILIKE', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        // Handle AJAX requests
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('clinic.medicines.partials.table', compact('medicines'))->render(),
+                'pagination' => $medicines->appends($request->query())->links()->toHtml(),
+                'total' => $medicines->total(),
+                'search' => $search
+            ]);
+        }
+        
+        return view('clinic.medicines.index', compact('medicines', 'search'));
     }
 
     public function create() 

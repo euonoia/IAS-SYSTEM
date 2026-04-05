@@ -15,6 +15,24 @@
     </div>
 </div>
 
+<!-- Search Bar -->
+<div class="mb-6">
+    <div class="flex gap-4">
+        <div class="flex-1">
+            <input type="text" id="search-input" value="{{ $search ?? '' }}" 
+                   placeholder="Search clearances by number, purpose, status, or student name/ID..." 
+                   class="w-full px-4 py-3 bg-slate-900/80 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+        <button type="button" id="clear-search" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-xl shadow-sm transition-all flex items-center gap-2 {{ empty($search) ? 'hidden' : '' }}">
+            <i class="fas fa-times"></i> Clear
+        </button>
+    </div>
+    <div id="search-results" class="text-slate-300 text-sm mt-2 {{ empty($search) ? 'hidden' : '' }}">
+        <i class="fas fa-info-circle mr-1"></i>
+        Showing results for: <strong id="search-term">"{{ $search ?? '' }}"</strong> (<span id="total-results">{{ $clearances->total() }}</span> results)
+    </div>
+</div>
+
 <div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
@@ -27,7 +45,7 @@
                     <th class="px-6 py-4 text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-800">
+            <tbody id="clearances-table-body" class="divide-y divide-slate-800">
                 @forelse($clearances as $c)
                 <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors">
                     <td class="px-6 py-4 font-mono text-xs font-bold text-cyan-300">{{ $c->clearance_number }}</td>
@@ -80,4 +98,11 @@
         </table>
     </div>
 </div>
+
+<!-- Pagination -->
+@if($clearances->hasPages())
+<div class="mt-6 flex justify-center">
+    {{ $clearances->appends(request()->query())->links() }}
+</div>
+@endif
 @endsection

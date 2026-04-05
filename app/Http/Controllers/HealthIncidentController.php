@@ -9,9 +9,36 @@ use App\Models\StudentMedicalRecordClinic;
 
 class HealthIncidentController extends Controller
 {
-    public function index() {
-        $incidents = HealthIncident::with('student_medical_record')->latest()->get();
-        return view('clinic.incidents.index', compact('incidents'));
+    public function index(Request $request) {
+        $search = $request->get('search');
+        
+        $incidents = HealthIncident::with('student_medical_record')
+            ->when($search, function ($query) use ($search) {
+                $query->where('incident_type', 'ILIKE', "%{$search}%")
+                      ->orWhere('description', 'ILIKE', "%{$search}%")
+                      ->orWhere('location', 'ILIKE', "%{$search}%")
+                      ->orWhere('first_aid_given', 'ILIKE', "%{$search}%")
+                      ->orWhere('action_taken', 'ILIKE', "%{$search}%")
+                      ->orWhere('reported_by', 'ILIKE', "%{$search}%")
+                      ->orWhereHas('student_medical_record', function ($q) use ($search) {
+                          $q->where('name', 'ILIKE', "%{$search}%")
+                            ->orWhere('student_id', 'ILIKE', "%{$search}%");
+                      });
+            })
+            ->latest()
+            ->paginate(10);
+
+        // Handle AJAX requests
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('clinic.incidents.partials.table', compact('incidents'))->render(),
+                'pagination' => $incidents->appends($request->query())->links()->toHtml(),
+                'total' => $incidents->total(),
+                'search' => $search
+            ]);
+        }
+        
+        return view('clinic.incidents.index', compact('incidents', 'search'));
     }
 
     public function create() {

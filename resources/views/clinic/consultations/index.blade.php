@@ -16,6 +16,23 @@
         </a>
     </div>
 
+    {{-- Search Bar --}}
+    <div class="mb-6">
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <input type="text" id="search-input" value="{{ $search ?? '' }}" placeholder="Search by student ID, name, symptoms, diagnosis, treatment, or medicine..." class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all" />
+            </div>
+            <button type="button" id="clear-search" class="bg-slate-600 hover:bg-slate-500 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 shadow-sm flex items-center gap-2 {{ empty($search) ? 'hidden' : '' }}">
+                <i class="fas fa-times"></i>
+                <span>Clear</span>
+            </button>
+        </div>
+        <div id="search-results" class="text-slate-300 text-sm mt-2 {{ empty($search) ? 'hidden' : '' }}">
+            <i class="fas fa-info-circle mr-1"></i>
+            Showing results for: <strong id="search-term">"{{ $search ?? '' }}"</strong> (<span id="total-results">{{ $consultations->total() }}</span> results)
+        </div>
+    </div>
+
     <div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -28,7 +45,7 @@
                         <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-800">
+                <tbody id="consultations-table-body" class="divide-y divide-slate-800">
                     @forelse($consultations as $item)
                     <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors group">
                         {{-- Date & Time --}}
@@ -97,6 +114,147 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination --}}
+        <div id="pagination-container" class="px-8 py-4 bg-slate-900/50 border-t border-slate-800">
+            @if($consultations->hasPages())
+                {{ $consultations->appends(request()->query())->links() }}
+            @endif
+        </div>
     </div>
 </div>
+
+{{-- Real-time Search JavaScript --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const clearButton = document.getElementById('clear-search');
+    const searchResults = document.getElementById('search-results');
+    const searchTerm = document.getElementById('search-term');
+    const totalResults = document.getElementById('total-results');
+    const tableBody = document.getElementById('consultations-table-body');
+    const paginationContainer = document.getElementById('pagination-container');
+
+    let searchTimeout;
+
+    // Function to perform search
+    function performSearch(searchValue) {
+        // Show loading state
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-8 py-20 text-center text-slate-400">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-spinner fa-spin text-2xl mb-4"></i>
+                        <p class="text-sm">Searching...</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        // Make AJAX request
+        fetch(`{{ route('clinic.consultations.index') }}?search=${encodeURIComponent(searchValue)}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update table content
+            tableBody.innerHTML = data.html;
+
+            // Update pagination
+            paginationContainer.innerHTML = data.pagination;
+
+            // Update search results info
+            if (searchValue.trim()) {
+                searchTerm.textContent = `"${searchValue}"`;
+                totalResults.textContent = data.total;
+                searchResults.classList.remove('hidden');
+                clearButton.classList.remove('hidden');
+            } else {
+                searchResults.classList.add('hidden');
+                clearButton.classList.add('hidden');
+            }
+
+            // Re-bind pagination links for AJAX
+            bindPaginationLinks();
+        })
+        .catch(error => {
+            console.error('Search error:', error);
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="px-8 py-20 text-center text-red-400">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-exclamation-triangle text-2xl mb-4"></i>
+                            <p class="text-sm">Search failed. Please try again.</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    // Function to bind pagination links for AJAX
+    function bindPaginationLinks() {
+        const paginationLinks = paginationContainer.querySelectorAll('a');
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = new URL(this.href);
+                const searchValue = searchInput.value;
+                if (searchValue) {
+                    url.searchParams.set('search', searchValue);
+                }
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = data.html;
+                    paginationContainer.innerHTML = data.pagination;
+                    bindPaginationLinks(); // Re-bind for new pagination
+                });
+            });
+        });
+    }
+
+    // Search input event listener with debounce
+    searchInput.addEventListener('input', function() {
+        const searchValue = this.value.trim();
+
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+
+        // Show/hide clear button
+        if (searchValue) {
+            clearButton.classList.remove('hidden');
+        } else {
+            clearButton.classList.add('hidden');
+            searchResults.classList.add('hidden');
+        }
+
+        // Debounce search requests
+        searchTimeout = setTimeout(() => {
+            performSearch(searchValue);
+        }, 300); // 300ms delay
+    });
+
+    // Clear search button
+    clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        clearButton.classList.add('hidden');
+        searchResults.classList.add('hidden');
+        performSearch('');
+    });
+
+    // Initial binding of pagination links
+    bindPaginationLinks();
+});
+</script>
 @endsection

@@ -8,10 +8,35 @@ use Illuminate\Http\Request;
 class StudentMedicalRecordClinicController extends Controller
 {
     // List of all medical records
-    public function index()
+    public function index(Request $request)
     {
-        $records = StudentMedicalRecordClinic::latest()->get();
-        return view('clinic.records.index', compact('records'));
+        $search = $request->get('search');
+        
+        $records = StudentMedicalRecordClinic::when($search, function ($query) use ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('student_id', 'ILIKE', "%{$search}%")
+                  ->orWhere('name', 'ILIKE', "%{$search}%")
+                  ->orWhere('blood_type', 'ILIKE', "%{$search}%")
+                  ->orWhere('allergies', 'ILIKE', "%{$search}%")
+                  ->orWhere('chronic_illness', 'ILIKE', "%{$search}%")
+                  ->orWhere('medical_history', 'ILIKE', "%{$search}%")
+                  ->orWhere('notes', 'ILIKE', "%{$search}%");
+            });
+        })
+        ->latest()
+        ->paginate(15);
+
+        // Handle AJAX requests
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('clinic.records.partials.table', compact('records'))->render(),
+                'pagination' => $records->appends($request->query())->links()->toHtml(),
+                'total' => $records->total(),
+                'search' => $search
+            ]);
+        }
+        
+        return view('clinic.records.index', compact('records', 'search'));
     }
 
     // Show the form for creating a new record

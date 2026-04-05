@@ -12,11 +12,35 @@ class MedicalClearanceController extends Controller
     /**
      * MODULE 4: Listahan ng Medical Clearances (Index Page)
      */
-    public function index()
-{
-    $clearances = MedicalClearance::with('student_medical_record')->latest()->get();
-    return view('clinic.clearances.index', compact('clearances'));
-}
+    public function index(Request $request)
+    {
+        $search = $request->get('search');
+        
+        $clearances = MedicalClearance::with('student_medical_record')
+            ->when($search, function ($query) use ($search) {
+                $query->where('clearance_number', 'ILIKE', "%{$search}%")
+                      ->orWhere('purpose', 'ILIKE', "%{$search}%")
+                      ->orWhere('status', 'ILIKE', "%{$search}%")
+                      ->orWhereHas('student_medical_record', function ($q) use ($search) {
+                          $q->where('name', 'ILIKE', "%{$search}%")
+                            ->orWhere('student_id', 'ILIKE', "%{$search}%");
+                      });
+            })
+            ->latest()
+            ->paginate(10);
+
+        // Handle AJAX requests
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('clinic.clearances.partials.table', compact('clearances'))->render(),
+                'pagination' => $clearances->appends($request->query())->links()->toHtml(),
+                'total' => $clearances->total(),
+                'search' => $search
+            ]);
+        }
+        
+        return view('clinic.clearances.index', compact('clearances', 'search'));
+    }
 
     /**
      * MODULE 4: Form para sa New Clearance (Create Page)
