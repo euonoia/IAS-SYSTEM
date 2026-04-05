@@ -136,8 +136,9 @@
 
             <div class="flex items-center justify-end gap-4 mt-8 pt-8 border-t border-slate-100/20">
                 <a href="{{ route('clinic.consultations.index') }}" class="text-sm font-bold text-slate-400 hover:text-slate-300 transition-colors">Discard</a>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95">
-                    Save Consultation
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    <span>Save Consultation</span>
                 </button>
             </div>
         </form>

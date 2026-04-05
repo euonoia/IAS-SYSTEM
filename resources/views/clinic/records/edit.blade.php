@@ -64,8 +64,9 @@
 
             <div class="flex items-center justify-end gap-4 mt-8 pt-8 border-t border-slate-100">
                 <a href="{{ route('clinic.records.index') }}" class="text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Cancel</a>
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95">
-                    Update Medical Record
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    <span>Update Medical Record</span>
                 </button>
             </div>
         </form>

@@ -3,43 +3,76 @@
 @section('content')
 {{-- TOP STATS CARDS --}}
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    {{-- Total Patients Card --}}
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/20 hover:border-blue-400/50 transition-all">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm text-slate-300 font-medium">Total Patients</p>
-                <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['total_patients'] }}</h3>
+                <div class="skeleton-text w-1/2 mb-2"></div>
+                <div class="skeleton-text w-3/4"></div>
+                <div class="real-content" style="display: none;">
+                    <p class="text-sm text-slate-300 font-medium">Total Patients</p>
+                    <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['total_patients'] }}</h3>
+                </div>
             </div>
-            <div class="p-3 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30">
+            <div class="p-3 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30 skeleton">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="p-3 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30 real-content" style="display: none;">
                 <i class="fas fa-users"></i>
             </div>
         </div>
-        <p class="text-xs text-emerald-400 mt-4 font-medium"><i class="fas fa-sync-alt animate-spin-slow"></i> Live Sync Active</p>
+        <div class="skeleton-text w-1/3 mt-4"></div>
+        <div class="real-content" style="display: none;">
+            <p class="text-xs text-emerald-400 mt-4 font-medium"><i class="fas fa-sync-alt animate-spin-slow"></i> Live Sync Active</p>
+        </div>
     </div>
 
+    {{-- Today's Appointments Card --}}
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/20 hover:border-teal-400/50 transition-all">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm text-slate-300 font-medium">Today's List</p>
-                <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['today_appointments'] }}</h3>
+                <div class="skeleton-text w-1/2 mb-2"></div>
+                <div class="skeleton-text w-3/4"></div>
+                <div class="real-content" style="display: none;">
+                    <p class="text-sm text-slate-300 font-medium">Today's List</p>
+                    <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['today_appointments'] }}</h3>
+                </div>
             </div>
-            <div class="p-3 bg-teal-500/20 text-teal-400 rounded-xl border border-teal-400/30">
+            <div class="p-3 bg-teal-500/20 text-teal-400 rounded-xl border border-teal-400/30 skeleton">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="p-3 bg-teal-500/20 text-teal-400 rounded-xl border border-teal-400/30 real-content" style="display: none;">
                 <i class="fas fa-calendar-check"></i>
             </div>
         </div>
-        <p class="text-xs text-slate-400 mt-4 font-medium">Check-ups Today</p>
+        <div class="skeleton-text w-1/3 mt-4"></div>
+        <div class="real-content" style="display: none;">
+            <p class="text-xs text-slate-400 mt-4 font-medium">Check-ups Today</p>
+        </div>
     </div>
 
+    {{-- Medicine Stocks Card --}}
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/20 hover:border-purple-400/50 transition-all">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm text-slate-300 font-medium">Medicine Stocks</p>
-                <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['medicine_stocks'] }}</h3>
+                <div class="skeleton-text w-1/2 mb-2"></div>
+                <div class="skeleton-text w-3/4"></div>
+                <div class="real-content" style="display: none;">
+                    <p class="text-sm text-slate-300 font-medium">Medicine Stocks</p>
+                    <h3 class="text-2xl font-bold mt-1 text-white">{{ $stats['medicine_stocks'] }}</h3>
+                </div>
             </div>
-            <div class="p-3 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-400/30">
+            <div class="p-3 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-400/30 skeleton">
+                <i class="fas fa-pills"></i>
+            </div>
+            <div class="p-3 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-400/30 real-content" style="display: none;">
                 <i class="fas fa-pills"></i>
             </div>
         </div>
-        <p class="text-xs text-slate-400 mt-4 font-medium italic">Total units available</p>
+        <div class="skeleton-text w-1/3 mt-4"></div>
+        <div class="real-content" style="display: none;">
+            <p class="text-xs text-slate-400 mt-4 font-medium italic">Total units available</p>
+        </div>
     </div>
 </div>
 
@@ -293,3 +326,20 @@
 </div>
 
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide skeleton loaders and show real content after a short delay
+    setTimeout(function() {
+        // Hide all skeleton elements
+        document.querySelectorAll('.skeleton, .skeleton-text').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show real content
+        document.querySelectorAll('.real-content').forEach(el => {
+            el.style.display = 'block';
+        });
+    }, 800); // 800ms delay for better UX
+});
+</script>
