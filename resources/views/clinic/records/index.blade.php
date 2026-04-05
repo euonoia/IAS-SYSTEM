@@ -41,13 +41,7 @@
                     <a href="{{ route('clinic.records.edit', $record->id) }}" class="text-slate-400 hover:text-amber-600 transition-colors p-2">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <form action="{{ route('clinic.records.destroy', $record->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this record?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-slate-400 hover:text-red-600 transition-colors p-2">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
+                    
                 </td>
             </tr>
             @empty
