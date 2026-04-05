@@ -24,7 +24,6 @@ class MedicineController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'stock_quantity' => 'required|integer|min:0',
-            'low_stock_threshold' => 'required|integer|min:0',
             'expiration_date' => 'required|date',
         ]);
 
@@ -48,7 +47,6 @@ class MedicineController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'stock_quantity' => 'required|integer|min:0',
-            'low_stock_threshold' => 'required|integer|min:0',
             'expiration_date' => 'required|date',
         ]);
 
