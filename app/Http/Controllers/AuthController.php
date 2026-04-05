@@ -10,6 +10,10 @@ use App\Models\User;
 class AuthController extends Controller
 {
     public function showLogin() {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         return view('auth.login');
     }
 

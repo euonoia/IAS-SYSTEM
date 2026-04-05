@@ -13,28 +13,28 @@
         </a>
     </div>
 
-    <div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
+    <div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-        <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
-            <tr>
-                <th class="px-6 py-4">Student ID</th>
-                <th class="px-6 py-4">Name</th>
-                <th class="px-6 py-4">Blood Type</th>
-                <th class="px-6 py-4">Allergies</th>
-                <th class="px-6 py-4">Chronic Illness</th>
-                <th class="px-6 py-4 text-right">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-            @forelse($records as $record)
-                <tr class="hover:bg-white/10 transition-colors">
-                <td class="px-6 py-4 text-sm font-semibold text-slate-200">{{ $record->student_id }}</td>
-                <td class="px-6 py-4 text-sm text-slate-200">{{ $record->name }}</td>
-                <td class="px-6 py-4 text-sm text-slate-300">{{ $record->blood_type ?? '-' }}</td>
-                <td class="px-6 py-4 text-sm text-red-300">{{ Str::limit($record->allergies ?? 'None', 30) }}</td>
-                <td class="px-6 py-4 text-sm text-slate-300">{{ Str::limit($record->chronic_illness ?? 'None', 30) }}</td>
-                <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-blue-900/90 text-slate-100 text-xs uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4">Student ID</th>
+                        <th class="px-6 py-4">Name</th>
+                        <th class="px-6 py-4">Blood Type</th>
+                        <th class="px-6 py-4">Allergies</th>
+                        <th class="px-6 py-4">Chronic Illness</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                    @forelse($records as $record)
+                        <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors">
+                            <td class="px-6 py-4 text-sm font-semibold text-slate-100">{{ $record->student_id }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-100">{{ $record->name }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-200">{{ $record->blood_type ?? '-' }}</td>
+                            <td class="px-6 py-4 text-sm text-rose-200">{{ Str::limit($record->allergies ?? 'None', 30) }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-200">{{ Str::limit($record->chronic_illness ?? 'None', 30) }}</td>
+                            <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
                     <a href="{{ route('clinic.records.show', $record->id) }}" class="text-slate-400 hover:text-blue-600 transition-colors p-2">
                         <i class="fas fa-eye"></i>
                     </a>

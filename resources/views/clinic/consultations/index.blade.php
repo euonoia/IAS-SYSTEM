@@ -17,51 +17,51 @@
             </div>
         </div>
 
-        <div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
+        <div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100">
-                            <th class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-widest">Date & Time</th>
-                            <th class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-widest">Student ID</th>
-                            <th class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-widest">Diagnosis</th>
-                            <th class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">Medicines</th>
-                            <th class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-widest text-right">Actions</th>
+                        <tr class="bg-blue-900/90 text-slate-100">
+                            <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest">Date & Time</th>
+                            <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest">Student ID</th>
+                            <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest">Diagnosis</th>
+                            <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-center">Medicines</th>
+                            <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50">
+                    <tbody class="divide-y divide-slate-800">
                         @forelse($consultations as $item)
-                        <tr class="hover:bg-slate-50/30 transition-colors group">
+                        <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors group">
                             <td class="px-8 py-5">
                                 <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-slate-700">{{ $item->created_at->format('M d, Y') }}</span>
+                                    <span class="text-sm font-bold text-slate-100">{{ $item->created_at->format('M d, Y') }}</span>
                                     <span class="text-[11px] text-slate-400 font-medium">{{ $item->created_at->format('h:i A') }}</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-5 text-sm font-bold text-blue-600">
+                            <td class="px-8 py-5 text-sm font-bold text-blue-300">
                                 {{ $item->student_medical_record->student_id }}
                             </td>
-                            <td class="px-8 py-5 text-sm text-slate-600 font-medium">
+                            <td class="px-8 py-5 text-sm text-slate-300 font-medium">
                                 {{ Str::limit($item->diagnosis, 50) }}
                             </td>
                             <td class="px-8 py-5 text-center">
                                 @if($item->medicines_used)
-                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-100">
+                                    <span class="px-3 py-1 bg-blue-100/10 text-blue-300 text-[10px] font-bold rounded-full border border-blue-700/10">
                                         <i class="fas fa-pills mr-1"></i> {{ $item->medicines_used }}
                                     </span>
                                 @else
-                                    <span class="text-slate-300 text-xs italic">None</span>
+                                    <span class="text-slate-400 text-xs italic">None</span>
                                 @endif
                             </td>
                             <td class="px-8 py-5 text-right">
                                 <div class="flex justify-end items-center gap-2">
-                                    <a href="{{ route('clinic.consultations.show', $item->id) }}" class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all" title="View">
+                                    <a href="{{ route('clinic.consultations.show', $item->id) }}" class="p-2 text-slate-400 hover:text-blue-300 hover:bg-blue-900/40 rounded-xl transition-all" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <form action="{{ route('clinic.consultations.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this record?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
+                                        <button type="submit" class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-900/40 rounded-xl transition-all">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>

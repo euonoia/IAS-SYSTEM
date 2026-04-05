@@ -62,7 +62,7 @@
     <div class="max-w-4xl mx-auto mb-8 no-print flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-300">
         <a href="{{ route('clinic.clearances.index') }}" class="text-slate-600 font-bold flex items-center gap-2 hover:text-blue-600 transition-all">
             <i class="fas fa-chevron-left"></i> Return to Records
-        </a>
+        </a>    
         <div class="flex gap-3">
             <button onclick="window.print()" class="bg-blue-600 text-white px-8 py-2.5 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 font-bold transition-all flex items-center gap-2 active:scale-95">
                 <i class="fas fa-print"></i> Print Document
@@ -81,7 +81,7 @@
             <div class="text-center mb-10 border-b-4 border-double border-slate-800 pb-8">
                 <div class="flex justify-center mb-4">
                     <div class="w-16 h-16 rounded-xl overflow-hidden shadow-lg">
-                        <img src="{{ asset('images/cropped.PNG') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
+                        <img src="{{ asset('images/rxcel-logo.png') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
                     </div>
                 </div>
                 <h1 class="text-xl font-bold uppercase tracking-[0.2em] text-slate-900">Republic of the Philippines</h1>
@@ -155,13 +155,8 @@
             </div>
 
             {{-- FOOTER --}}
-            <div class="absolute bottom-4 left-12 right-12 flex justify-between items-end border-t border-slate-100 pt-6 no-print-footer">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-shield-alt text-blue-200 text-xl"></i>
-                    <p class="text-[9px] text-slate-400 font-mono tracking-tighter uppercase italic">Securely Verified by Rxcel Clinic System</p>
-                </div>
-                <p class="text-[9px] text-slate-400 font-mono uppercase tracking-tighter">System Generated • Non-transferable Document</p>
-            </div>
+            
+            
         </div>
     </div>
 

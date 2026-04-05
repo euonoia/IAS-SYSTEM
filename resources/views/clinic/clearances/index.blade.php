@@ -15,10 +15,10 @@
     </div>
 </div>
 
-<div class="bg-white/10 rounded-2xl border border-white/20 shadow-lg overflow-hidden">
+<div class="bg-slate-950/80 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-bold">
+            <thead class="bg-indigo-950/90 text-slate-100 text-xs uppercase tracking-wider font-bold">
                 <tr>
                     <th class="px-6 py-4 text-nowrap">Clearance #</th>
                     <th class="px-6 py-4">Student Name</th>
@@ -27,11 +27,11 @@
                     <th class="px-6 py-4 text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
+            <tbody class="divide-y divide-slate-800">
                 @forelse($clearances as $c)
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-6 py-4 font-mono text-xs font-bold text-indigo-600">{{ $c->clearance_number }}</td>
-                    <td class="px-6 py-4 text-sm font-semibold text-slate-700">
+                <tr class="bg-slate-900 even:bg-slate-800/60 hover:bg-slate-800/70 transition-colors">
+                    <td class="px-6 py-4 font-mono text-xs font-bold text-cyan-300">{{ $c->clearance_number }}</td>
+                    <td class="px-6 py-4 text-sm font-semibold text-slate-100">
                         {{-- Inayos ang variable mula $clearance patungong $c --}}
                         {{ optional($c->student_medical_record)->name ?: optional($c->student_medical_record)->student_id ?: 'Unknown Student' }}
                     </td>

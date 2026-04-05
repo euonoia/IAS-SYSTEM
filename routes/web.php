@@ -8,6 +8,7 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MedicalClearanceController;
 use App\Http\Controllers\HealthIncidentController; // Inimport para sa Module 5
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,9 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 
-// I-redirect ang main domain sa dashboard
+// I-redirect ang main domain sa login o dashboard kung naka-login na
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });
 
 // Authentication Routes
@@ -25,8 +26,15 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Main Dashboard Route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    // Main Dashboard Route
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Profile & Settings Module
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::put('/profile/settings', [ProfileController::class, 'updateClinicSettings'])->name('profile.settings.update');
 
 /**
  * MODULE 1: Student Medical Records
@@ -87,3 +95,4 @@ Route::resource('clinic/incidents', HealthIncidentController::class)->names([
     'show'    => 'clinic.incidents.show',
     'destroy' => 'clinic.incidents.destroy',
 ]);
+});

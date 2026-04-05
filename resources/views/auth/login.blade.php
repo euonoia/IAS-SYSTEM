@@ -16,7 +16,7 @@
     <div class="w-full max-w-md">
         <div class="text-center mb-10">
             <div class="inline-flex w-16 h-16 rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/40 mb-4">
-                <img src="{{ asset('images/cropped.PNG') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
+                <img src="{{ asset('images/rxcel-logo.png') }}" alt="Rxcel Logo" class="w-full h-full object-cover">
             </div>
             <h1 class="text-3xl font-extrabold text-white italic">Rx<span class="text-blue-500">cel</span></h1>
             <p class="text-slate-500 text-sm mt-2 font-medium">Clinic Management System</p>
