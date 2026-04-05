@@ -10,7 +10,6 @@ use App\Http\Controllers\HealthIncidentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 
-<<<<<<< Updated upstream
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +17,6 @@ use App\Http\Controllers\ProfileController;
 */
 
 // Redirect root to dashboard or login based on authentication status
-=======
->>>>>>> Stashed changes
 Route::get('/', function () {
     return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });
