@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentMedicalRecordClinic;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class StudentMedicalRecordClinicController extends Controller
 {
@@ -26,7 +27,6 @@ class StudentMedicalRecordClinicController extends Controller
         ->latest()
         ->paginate(15);
 
-        // Handle AJAX requests
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('clinic.records.partials.table', compact('records'))->render(),
@@ -39,13 +39,33 @@ class StudentMedicalRecordClinicController extends Controller
         return view('clinic.records.index', compact('records', 'search'));
     }
 
-    // Show the form for creating a new record
+    // Form para sa bagong record
     public function create()
     {
-        return view('clinic.records.create');
+        // FORMAT: ST-YYYY-001
+        $year = Carbon::now()->format('Y');
+        $prefix = 'ST-' . $year . '-';
+
+        // Kunin ang huling record na may ganitong prefix
+        $lastRecord = StudentMedicalRecordClinic::where('student_id', 'LIKE', $prefix . '%')
+                        ->orderBy('student_id', 'desc')
+                        ->first();
+
+        if ($lastRecord) {
+            // Kunin yung huling 3 digits (e.g., 001) at dagdagan ng isa
+            $lastNumber = intval(substr($lastRecord->student_id, -3));
+            $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            // Kung wala pang record sa taong ito, simulan sa 001
+            $newNumber = '001';
+        }
+
+        $generatedId = $prefix . $newNumber;
+
+        return view('clinic.records.create', compact('generatedId'));
     }
 
-    // Save the new record to the database
+    // Save the record
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -64,26 +84,24 @@ class StudentMedicalRecordClinicController extends Controller
                          ->with('success', 'Medical record successfully created.');
     }
 
-    // Show the specific medical record of a student
     public function show($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         return view('clinic.records.show', compact('record'));
     }
 
-    // Show the form for updating a record
     public function edit($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         return view('clinic.records.edit', compact('record'));
     }
 
-    // Save the updates to the record
     public function update(Request $request, $id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         
         $validated = $request->validate([
+            // Kapag nag-edit, student_id ay readonly pero kailangan pa rin sa validation
             'student_id'      => 'required|unique:student_medical_record_clinics,student_id,'.$id,
             'name'            => 'required|string|max:255',
             'blood_type'      => 'nullable|string',
@@ -99,7 +117,6 @@ class StudentMedicalRecordClinicController extends Controller
                          ->with('success', 'Medical record successfully updated.');
     }
 
-    
     public function destroy($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
