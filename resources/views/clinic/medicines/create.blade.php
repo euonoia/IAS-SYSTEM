@@ -25,7 +25,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Initial Stock Quantity</label>
+                    <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Stock Quantity</label>
                     <input type="number" name="stock_quantity" required min="0"
                         class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all"
                         placeholder="0">
