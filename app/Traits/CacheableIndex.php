@@ -4,14 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Cache;
 
-/**
- * CacheableIndex Trait
- * 
- * Simple cache invalidation for index queries.
- * Cache is automatically cleared on create/update/delete operations.
- * Queries themselves are not cached (problematic with Eloquent objects).
- * Instead, this provides safe cache invalidation on data changes.
- */
+
 trait CacheableIndex
 {
     /**
