@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Traits\CacheableIndex;
 use Illuminate\Http\Request;
 use App\Models\HealthIncident;
 use App\Models\StudentMedicalRecordClinic;
 
 class HealthIncidentController extends Controller
 {
+    use CacheableIndex;
+
     public function index(Request $request) {
         $search = $request->get('search');
         
@@ -27,8 +30,6 @@ class HealthIncidentController extends Controller
             })
             ->latest()
             ->paginate(10);
-
-        // Handle AJAX requests
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('clinic.incidents.partials.table', compact('incidents'))->render(),
@@ -58,6 +59,9 @@ class HealthIncidentController extends Controller
         ]);
 
         HealthIncident::create($validated);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(HealthIncident::class);
 
         return redirect()->route('clinic.incidents.index')
                          ->with('success', 'Health incident has been recorded successfully!');
@@ -71,6 +75,10 @@ class HealthIncidentController extends Controller
     public function destroy($id) {
         $incident = HealthIncident::findOrFail($id);
         $incident->delete();
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(HealthIncident::class);
+        
         return back()->with('success', 'Incident report deleted.');
     }
 }

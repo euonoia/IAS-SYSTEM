@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
+use App\Traits\CacheableIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class MedicineController extends Controller 
 {
+    use CacheableIndex;
+
     public function index(Request $request) 
     {
         $search = $request->get('search');
@@ -52,6 +55,9 @@ class MedicineController extends Controller
         $validated['batch_number'] = 'MED-' . time();
 
         Medicine::create($validated);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(Medicine::class);
 
         return redirect()->route('clinic.medicines.index')
                          ->with('success', 'Medicine added to inventory successfully!');
@@ -71,6 +77,9 @@ class MedicineController extends Controller
         ]);
 
         $medicine->update($validated);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(Medicine::class);
 
         return redirect()->route('clinic.medicines.index')
                          ->with('success', 'Medicine updated successfully!');
@@ -79,6 +88,10 @@ class MedicineController extends Controller
     public function destroy(Medicine $medicine)
     {
         $medicine->delete();
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(Medicine::class);
+        
         return back()->with('success', 'Medicine removed from inventory.');
     }
 }

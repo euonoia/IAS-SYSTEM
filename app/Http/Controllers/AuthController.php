@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use App\Mail\OTPMail;
 use App\Models\ActivityLog;
@@ -80,7 +81,7 @@ class AuthController extends Controller
                 // Detailed error handling for SMTP debugging
                 $errorMsg = $e->getMessage();
                 
-                \Log::error('SMTP Error - Failed to send OTP email', [
+                Log::error('SMTP Error - Failed to send OTP email', [
                     'user_id' => $user->id,
                     'email' => $user->email,
                     'error_message' => $errorMsg,
@@ -245,7 +246,7 @@ class AuthController extends Controller
             return back()->with('success', 'A new verification code has been sent to your email.');
 
         } catch (\Exception $e) {
-            \Log::error('Failed to resend OTP email', [
+            Log::error('Failed to resend OTP email', [
                 'user_id' => $user->id,
                 'email' => $user->email,
                 'error' => $e->getMessage(),
