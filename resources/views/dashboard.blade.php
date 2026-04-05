@@ -59,7 +59,7 @@
         <table class="w-full text-left">
             <thead class="bg-white/5 text-slate-300 text-[10px] uppercase tracking-[0.15em] font-black border-b border-white/10">
                 <tr>
-                    <th class="px-8 py-5">Student ID</th>
+                    <th class="px-8 py-5">Student ID / Name</th>
                     <th class="px-8 py-5 text-center">Blood Type</th>
                     <th class="px-8 py-5">Allergies</th>
                     <th class="px-8 py-5">Chronic Illness</th>
@@ -74,7 +74,10 @@
                             <div class="w-9 h-9 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-xs font-bold border border-blue-400/30">
                                 <i class="fas fa-user-graduate"></i>
                             </div>
-                            <span class="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">{{ $record->student_id }}</span>
+                            <div>
+                                <span class="text-sm text-slate-400">{{ $record->student_id }}</span>
+                                <div class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">{{ $record->name ?? 'N/A' }}</div>
+                            </div>
                         </div>
                     </td>
                     <td class="px-8 py-5 text-center">
@@ -129,10 +132,10 @@
                     @forelse($todayConsultations as $cons)
                     <tr class="hover:bg-white/5 transition-colors">
                         <td class="px-6 py-4 font-bold text-blue-400">{{ $cons->created_at->format('h:i A') }}</td>
-                        <td class="px-6 py-4 font-medium">
+                        <td class="px-6 py-4">
                             @if($cons->student_medical_record)
-                                <span class="text-orange-400">{{ $cons->student_medical_record->student_id }}</span>
-                                <div class="text-slate-500 text-[11px]">{{ $cons->student_medical_record->name ?? 'N/A' }}</div>
+                                <span class="text-slate-400 text-[11px]">{{ $cons->student_medical_record->student_id }}</span>
+                                <div class="text-orange-400 font-bold">{{ $cons->student_medical_record->name ?? 'N/A' }}</div>
                             @else
                                 <span class="text-slate-500">N/A</span>
                             @endif
@@ -200,7 +203,7 @@
             <table class="w-full text-left text-xs">
                 <thead class="bg-white/5 text-slate-300 uppercase font-bold border-b border-white/10">
                     <tr>
-                        <th class="px-6 py-4">Student ID</th>
+                        <th class="px-6 py-4">Student ID / Name</th>
                         <th class="px-6 py-4">Purpose</th>
                         <th class="px-6 py-4">Status</th>
                     </tr>
@@ -208,9 +211,12 @@
                 <tbody class="divide-y divide-white/10 text-slate-300">
                     @forelse($medicalClearances as $clearance)
                     <tr class="hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 font-semibold text-orange-400">
+                        <td class="px-6 py-4">
                             @if($clearance->student_medical_record)
-                                {{ $clearance->student_medical_record->student_id }}
+                                <div>
+                                    <span class="text-slate-400 text-[11px]">{{ $clearance->student_medical_record->student_id }}</span>
+                                    <div class="font-semibold text-orange-400">{{ $clearance->student_medical_record->name ?? 'N/A' }}</div>
+                                </div>
                             @else
                                 N/A
                             @endif
@@ -253,7 +259,7 @@
             <table class="w-full text-left text-xs">
                 <thead class="bg-white/5 text-slate-300 uppercase font-bold border-b border-white/10">
                     <tr>
-                        <th class="px-6 py-4">Student ID</th>
+                        <th class="px-6 py-4">Student ID / Name</th>
                         <th class="px-6 py-4">Incident Type</th>
                         <th class="px-6 py-4">Date</th>
                     </tr>
@@ -261,9 +267,12 @@
                 <tbody class="divide-y divide-white/10 text-slate-300">
                     @forelse($healthIncidents as $incident)
                     <tr class="hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 font-semibold text-red-400">
+                        <td class="px-6 py-4">
                             @if($incident->student_medical_record)
-                                {{ $incident->student_medical_record->student_id }}
+                                <div>
+                                    <span class="text-slate-400 text-[11px]">{{ $incident->student_medical_record->student_id }}</span>
+                                    <div class="font-semibold text-red-400">{{ $incident->student_medical_record->name ?? 'N/A' }}</div>
+                                </div>
                             @else
                                 N/A
                             @endif
