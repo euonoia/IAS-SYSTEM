@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Validation\Rules\Password; // Dagdag na import
+use Illuminate\Validation\Rules\Password; 
 
 class ProfileController extends Controller
 {
@@ -55,7 +55,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // UPDATED: Mas mahigpit na password validation rules
+        // UPDATED: password validation with stronger rules
         $request->validate([
             'current_password' => 'required|string',
             'password' => [

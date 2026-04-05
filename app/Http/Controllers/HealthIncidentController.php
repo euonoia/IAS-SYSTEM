@@ -10,13 +10,11 @@ use App\Models\StudentMedicalRecordClinic;
 class HealthIncidentController extends Controller
 {
     public function index() {
-        // Kunin ang lahat ng incident reports
         $incidents = HealthIncident::with('student_medical_record')->latest()->get();
         return view('clinic.incidents.index', compact('incidents'));
     }
 
     public function create() {
-        // Kunin ang mga students para sa dropdown
         $students = StudentMedicalRecordClinic::orderBy('name', 'asc')->get();
         return view('clinic.incidents.create', compact('students'));
     }

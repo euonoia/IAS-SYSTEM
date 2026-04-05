@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicine;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str; // Import Str para sa random string
+use Illuminate\Support\Str;
 
 class MedicineController extends Controller 
 {
@@ -29,7 +29,7 @@ class MedicineController extends Controller
         ]);
 
         // AUTOMATIC MEDICINE NUMBER GENERATION
-        // Format: MED- + Timestamp (para unique)
+        // Format: MED- + Timestamp
         $validated['batch_number'] = 'MED-' . time();
 
         Medicine::create($validated);

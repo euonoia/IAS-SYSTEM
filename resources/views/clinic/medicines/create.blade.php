@@ -37,7 +37,7 @@
                         class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all">
                 </div>
 
-                {{-- INALIS NA ANG BATCH NO. FIELD DITO DAHIL AUTOMATIC NA ITO SA CONTROLLER --}}
+                
             </div>
 
             <div class="flex items-center justify-end gap-4 mt-8 pt-8 border-t border-slate-100/20">

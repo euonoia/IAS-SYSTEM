@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 
 class StudentMedicalRecordClinicController extends Controller
 {
-    // Ipakita ang listahan ng lahat ng medical records
+    // List of all medical records
     public function index()
     {
         $records = StudentMedicalRecordClinic::latest()->get();
         return view('clinic.records.index', compact('records'));
     }
 
-    // Ipakita ang form para sa paggawa ng bagong record
+    // Show the form for creating a new record
     public function create()
     {
         return view('clinic.records.create');
     }
 
-    // I-save ang bagong record sa database
+    // Save the new record to the database
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -39,21 +39,21 @@ class StudentMedicalRecordClinicController extends Controller
                          ->with('success', 'Medical record successfully created.');
     }
 
-    // Ipakita ang specific na medical record ng isang estudyante
+    // Show the specific medical record of a student
     public function show($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         return view('clinic.records.show', compact('record'));
     }
 
-    // Ipakita ang form para i-update ang record
+    // Show the form for updating a record
     public function edit($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         return view('clinic.records.edit', compact('record'));
     }
 
-    // I-save ang mga pagbabago sa record
+    // Save the updates to the record
     public function update(Request $request, $id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
@@ -74,7 +74,7 @@ class StudentMedicalRecordClinicController extends Controller
                          ->with('success', 'Medical record successfully updated.');
     }
 
-    // Burahin ang record sa database
+    
     public function destroy($id)
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);

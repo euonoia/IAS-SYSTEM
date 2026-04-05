@@ -6,7 +6,7 @@ use App\Http\Controllers\StudentMedicalRecordClinicController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\MedicineController; 
 use App\Http\Controllers\MedicalClearanceController;
-use App\Http\Controllers\HealthIncidentController; // Inimport para sa Module 5
+use App\Http\Controllers\HealthIncidentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 
@@ -16,7 +16,7 @@ use App\Http\Controllers\ProfileController;
 |--------------------------------------------------------------------------
 */
 
-// I-redirect ang main domain sa login o dashboard kung naka-login na
+// Redirect root to dashboard or login based on authentication status
 Route::get('/', function () {
     return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });

@@ -17,7 +17,7 @@ class MedicalClearance extends Model
 
 public function student_medical_record()
 {
-    // Siguraduhin na 'student_medical_record_id' ang foreign key sa table mo
+    // Link the clearance to the Student Medical Record (Module 1).
     return $this->belongsTo(StudentMedicalRecordClinic::class, 'student_medical_record_id');
 }
 }

@@ -8,7 +8,7 @@ class StudentMedicalRecordClinic extends Model
 {
     protected $table = 'student_medical_record_clinics';
 
-    // Idagdag ang mga columns na ito para payagan ang pag-save
+    // Fields that can be mass assigned to the database
     protected $fillable = [
         'student_id',
         'name',

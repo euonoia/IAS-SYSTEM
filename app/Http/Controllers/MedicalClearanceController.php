@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class MedicalClearanceController extends Controller
 {
     /**
-     * MODULE 4: Listahan ng lahat ng Clearances (Index Page)
+     * MODULE 4: Listahan ng Medical Clearances (Index Page)
      */
     public function index()
 {
@@ -54,7 +54,7 @@ class MedicalClearanceController extends Controller
     }
 
     /**
-     * MODULE 4: Pag-approve ng Clearance
+     * MODULE 4: Approve clearance at mark as ready (Update status to Approved)
      */
     public function approve($id) 
     {
@@ -68,7 +68,7 @@ class MedicalClearanceController extends Controller
     }
 
     /**
-     * MODULE 4: Pag-delete ng record
+     * MODULE 4: Delete record
      */
     public function destroy($id)
     {
