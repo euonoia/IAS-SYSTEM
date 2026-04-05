@@ -1,6 +1,56 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+<style>
+    /* 1. The main container background and border */
+    .ts-control {
+        background-color: #1e293b !important; /* bg-slate-800 */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 0.75rem !important; 
+        padding: 0.75rem 1rem !important;
+        color: white !important; /* Text color for selected item */
+    }
+
+    /* 2. The input field (where you actually type) */
+    .ts-control input {
+        color: white !important;
+        font-size: 1rem !important;
+    }
+
+    /* 3. Placeholder color (before you start typing) */
+    .ts-control input::placeholder {
+        color: #94a3b8 !important; /* slate-400 */
+    }
+
+    /* 4. The dropdown menu background */
+    .ts-dropdown {
+        background-color: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 0.75rem !important;
+        margin-top: 5px !important;
+        color: white !important;
+    }
+
+    /* 5. Individual options in the list */
+    .ts-dropdown .option {
+        color: white !important; /* Makes list text white */
+        padding: 10px 15px !important;
+    }
+
+    /* 6. Hover/Active state for options */
+    .ts-dropdown .active {
+        background-color: #2563eb !important; /* bg-blue-600 */
+        color: white !important;
+    }
+
+    /* 7. Remove the default blue glow from Bootstrap if it appears */
+    .ts-wrapper.focus .ts-control {
+        box-shadow: 0 0 0 2px #60a5fa !important; /* blue-400 ring */
+        border-color: #60a5fa !important;
+    }
+</style>
+
 <div class="max-w-3xl mx-auto">
     <div class="flex items-center gap-4 mb-8">
         <a href="{{ route('clinic.consultations.index') }}" class="p-2 bg-white/10 border border-white/20 rounded-xl text-slate-200 hover:text-white transition-colors">
@@ -27,13 +77,17 @@
         <form action="{{ route('clinic.consultations.store') }}" method="POST" class="p-8">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {{-- Searchable Student Selection --}}
                 <div class="md:col-span-2">
-                    <label for="student_medical_record_id" class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Student Record</label>
-                    <select id="student_medical_record_id" name="student_medical_record_id" required class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all">
+                    <label for="student_medical_record_id" class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">
+                        Search Student (Name or ID)
+                    </label>
+                    <select id="student_medical_record_id" name="student_medical_record_id" required autocomplete="off" placeholder="Start typing name or student ID...">
                         <option value="">Select a student</option>
                         @foreach($students as $student)
                             <option value="{{ $student->id }}" {{ old('student_medical_record_id') == $student->id ? 'selected' : '' }}>
-                                {{ $student->student_id }}
+                                {{ $student->name }} — {{ $student->student_id }}
                             </option>
                         @endforeach
                     </select>
@@ -69,4 +123,17 @@
         </form>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        new TomSelect("#student_medical_record_id", {
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    });
+</script>
 @endsection
