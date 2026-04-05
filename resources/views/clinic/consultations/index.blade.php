@@ -58,9 +58,9 @@
 
                         {{-- Medicines Used --}}
                         <td class="px-8 py-5 text-center">
-                            @if($item->medicines_used)
+                            @if($item->medicine)
                                 <span class="px-3 py-1 bg-blue-100/10 text-blue-300 text-[10px] font-bold rounded-full border border-blue-700/10">
-                                    <i class="fas fa-pills mr-1"></i> {{ $item->medicines_used }}
+                                    <i class="fas fa-pills mr-1"></i> {{ $item->medicine->name }} ({{ $item->quantity_used }})
                                 </span>
                             @else
                                 <span class="text-slate-400 text-xs italic">None</span>

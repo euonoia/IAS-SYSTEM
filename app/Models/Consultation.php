@@ -11,11 +11,17 @@ class Consultation extends Model
         'symptoms', 
         'diagnosis', 
         'treatment', 
-        'medicines_used'
+        'medicine_id',
+        'quantity_used'
     ];
 
     public function student_medical_record()
     {
         return $this->belongsTo(StudentMedicalRecordClinic::class, 'student_medical_record_id');
+    }
+
+    public function medicine()
+    {
+        return $this->belongsTo(Medicine::class, 'medicine_id');
     }
 }

@@ -24,7 +24,7 @@
                         placeholder="e.g. Paracetamol, Amoxicillin">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div ">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Stock Quantity</label>
                         <div class="relative">
@@ -35,15 +35,10 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1 text-amber-600">Low Stock Alert at</label>
-                        <input type="number" name="low_stock_threshold" value="{{ old('low_stock_threshold', $medicine->low_stock_threshold) }}" required
-                            class="w-full px-4 py-3 rounded-2xl border border-amber-100 bg-amber-50/30 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 outline-none transition-all"
-                            placeholder="10">
-                    </div>
+                    
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div >
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Expiration Date</label>
                         <div class="relative">
@@ -52,12 +47,6 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Batch / Lot Number</label>
-                        <input type="text" name="batch_number" value="{{ old('batch_number', $medicine->batch_number) }}"
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-mono text-sm uppercase"
-                            placeholder="Optional (e.g. B-2024-X)">
-                    </div>
                 </div>
             </div>
 

@@ -39,8 +39,14 @@
         </div>
 
         <div class="md:col-span-2">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Medicines Used</p>
-            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-700">{{ $consultation->medicines_used ?: 'None recorded' }}</div>
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Medicine Used</p>
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-700">
+                @if($consultation->medicine)
+                    <strong>{{ $consultation->medicine->name }}</strong> - Quantity: {{ $consultation->quantity_used }}
+                @else
+                    None recorded
+                @endif
+            </div>
         </div>
     </div>
 </div>

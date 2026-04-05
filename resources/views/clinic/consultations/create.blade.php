@@ -109,8 +109,28 @@
                 </div>
 
                 <div class="md:col-span-2">
-                    <label for="medicines_used" class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Medicines Used</label>
-                    <input id="medicines_used" type="text" name="medicines_used" value="{{ old('medicines_used') }}" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all" placeholder="e.g. Paracetamol 500mg">
+                    <label for="medicine_id" class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Medicine Used</label>
+                    <select id="medicine_id" name="medicine_id" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all" data-medicines='@json($medicines->mapWithKeys(function($m) { return [$m->id => ["name" => $m->name, "stock" => $m->stock_quantity]]; }))'>
+                        <option value="">-- Select a medicine (optional) --</option>
+                        @foreach($medicines as $medicine)
+                            <option value="{{ $medicine->id }}" data-stock="{{ $medicine->stock_quantity }}" {{ old('medicine_id') == $medicine->id ? 'selected' : '' }}>
+                                {{ $medicine->name }} (Stock: {{ $medicine->stock_quantity }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('medicine_id')
+                        <p class="mt-1 text-xs text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="quantity_used" class="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">
+                        Quantity Used <span id="stock_info" class="text-xs font-normal text-slate-400"></span>
+                    </label>
+                    <input id="quantity_used" type="number" name="quantity_used" value="{{ old('quantity_used') }}" min="1" step="1" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-slate-800 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all" placeholder="How much medicine was used?">
+                    @error('quantity_used')
+                        <p class="mt-1 text-xs text-red-400">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -124,6 +144,7 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -137,3 +158,66 @@
     });
 </script>
 @endsection
+=======
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const medicineSelect = document.getElementById('medicine_id');
+    const quantityInput = document.getElementById('quantity_used');
+    const stockInfo = document.getElementById('stock_info');
+    
+    // Medicine data from select options
+    const medicineData = {};
+    
+    // Extract medicine stock data from options
+    Array.from(medicineSelect.options).forEach(option => {
+        if (option.dataset.stock) {
+            medicineData[option.value] = parseInt(option.dataset.stock);
+        }
+    });
+    
+    // Function to update max attribute and display stock info
+    function updateMaxQuantity() {
+        const selectedId = medicineSelect.value;
+        
+        if (selectedId && medicineData[selectedId]) {
+            const maxStock = medicineData[selectedId];
+            quantityInput.max = maxStock;
+            stockInfo.textContent = `(Max: ${maxStock} available)`;
+            quantityInput.disabled = false;
+        } else {
+            quantityInput.removeAttribute('max');
+            stockInfo.textContent = '';
+            quantityInput.disabled = true;
+            quantityInput.value = '';
+        }
+        
+        // Validate current value against new max
+        if (quantityInput.value && parseInt(quantityInput.value) > (quantityInput.max || Infinity)) {
+            quantityInput.value = quantityInput.max;
+        }
+    }
+    
+    // Listen for medicine selection changes
+    medicineSelect.addEventListener('change', updateMaxQuantity);
+    
+    // Initialize on page load
+    updateMaxQuantity();
+    
+    // Prevent submission if quantity exceeds stock
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const selectedId = medicineSelect.value;
+        const quantity = parseInt(quantityInput.value) || 0;
+        
+        if (selectedId && medicineData[selectedId]) {
+            const maxStock = medicineData[selectedId];
+            if (quantity > maxStock) {
+                e.preventDefault();
+                alert(`Cannot use ${quantity} units. Maximum available stock: ${maxStock}`);
+            }
+        }
+    });
+});
+</script>
+@endsection
+>>>>>>> Stashed changes
