@@ -26,9 +26,19 @@ trait CacheableIndex
      */
     protected function forgetAllIndexCache(string $modelClass): void
     {
-        // This is called after create/update/delete to invalidate related caches
-        // Laravel's view caching and HTTP cache headers will handle the rest
-        Cache::tags([$this->getCacheTag($modelClass)])->flush();
+        // Check if the current cache store supports tagging
+        $cacheDriver = config('cache.default');
+        $tagSupportedDrivers = ['redis', 'memcached', 'dynamodb'];
+        
+        if (in_array($cacheDriver, $tagSupportedDrivers)) {
+            // Cache store supports tags
+            Cache::tags([$this->getCacheTag($modelClass)])->flush();
+        } else {
+            // Cache store doesn't support tags (like file cache)
+            // For file cache, we can't selectively clear cache, but we can clear all cache
+            // However, this is too aggressive, so we'll skip cache invalidation for file cache
+            // The cache will naturally expire based on the configured lifetime
+        }
     }
 }
 
