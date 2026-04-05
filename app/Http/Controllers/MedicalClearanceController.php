@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\MedicalClearance;
 use App\Models\StudentMedicalRecordClinic;
+use App\Traits\CacheableIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class MedicalClearanceController extends Controller
 {
+    use CacheableIndex;
+
     /**
      * MODULE 4: Listahan ng Medical Clearances (Index Page)
      */
@@ -71,6 +74,9 @@ class MedicalClearanceController extends Controller
             'clearance_number' => 'MC-' . strtoupper(Str::random(8)),
             'status' => 'Pending'
         ]);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(MedicalClearance::class);
 
         // Pagkatapos i-save, redirect pabalik sa listahan (index) na may success message
         return redirect()->route('clinic.clearances.index')
@@ -87,6 +93,9 @@ class MedicalClearanceController extends Controller
             'status' => 'Approved',
             'issued_date' => now()
         ]);
+        
+        // Invalidate index cache since status changed
+        $this->forgetAllIndexCache(MedicalClearance::class);
 
         return back()->with('success', 'Clearance has been approved and marked as ready!');
     }
@@ -98,6 +107,9 @@ class MedicalClearanceController extends Controller
     {
         $clearance = MedicalClearance::findOrFail($id);
         $clearance->delete();
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(MedicalClearance::class);
         
         return back()->with('success', 'Clearance record deleted successfully.');
     }

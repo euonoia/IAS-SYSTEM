@@ -62,8 +62,9 @@
                 <a href="{{ route('clinic.records.index') }}" class="text-sm font-bold text-slate-400 hover:text-slate-200 transition-colors">
                     Cancel
                 </a>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95">
-                    Save Record
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-sm transition-all transform active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    <span>Save Record</span>
                 </button>
             </div>
         </form>

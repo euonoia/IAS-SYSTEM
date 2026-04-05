@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Consultation;
 use App\Models\StudentMedicalRecordClinic;
 use App\Models\Medicine;
+use App\Traits\CacheableIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
+    use CacheableIndex;
+
     /**
      * Display a listing of the consultations.
      */
@@ -138,6 +141,9 @@ class ConsultationController extends Controller
                 Consultation::create($validated);
             });
             
+            // Invalidate index cache
+            $this->forgetAllIndexCache(Consultation::class);
+            
             return redirect()->route('clinic.consultations.index')
                             ->with('success', 'Consultation recorded successfully!');
                   
@@ -173,6 +179,9 @@ class ConsultationController extends Controller
         }
         
         $consultation->delete();
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(Consultation::class);
 
         return redirect()->route('clinic.consultations.index')
                          ->with('success', 'Consultation record deleted successfully.');

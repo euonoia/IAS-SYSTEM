@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentMedicalRecordClinic;
+use App\Traits\CacheableIndex;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class StudentMedicalRecordClinicController extends Controller
 {
+    use CacheableIndex;
+
     // List of all medical records
     public function index(Request $request)
     {
@@ -79,6 +82,9 @@ class StudentMedicalRecordClinicController extends Controller
         ]);
 
         StudentMedicalRecordClinic::create($validated);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(StudentMedicalRecordClinic::class);
 
         return redirect()->route('clinic.records.index')
                          ->with('success', 'Medical record successfully created.');
@@ -112,6 +118,9 @@ class StudentMedicalRecordClinicController extends Controller
         ]);
 
         $record->update($validated);
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(StudentMedicalRecordClinic::class);
 
         return redirect()->route('clinic.records.index')
                          ->with('success', 'Medical record successfully updated.');
@@ -121,6 +130,9 @@ class StudentMedicalRecordClinicController extends Controller
     {
         $record = StudentMedicalRecordClinic::findOrFail($id);
         $record->delete();
+        
+        // Invalidate index cache
+        $this->forgetAllIndexCache(StudentMedicalRecordClinic::class);
 
         return redirect()->route('clinic.records.index')
                          ->with('success', 'Medical record successfully deleted.');

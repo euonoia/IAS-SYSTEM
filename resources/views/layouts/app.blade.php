@@ -38,6 +38,68 @@
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 10px; }
+
+        /* Skeleton Loading Styles */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Loading Button Styles */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: button-loading-spinner 1s ease infinite;
+        }
+
+        @keyframes button-loading-spinner {
+            from { transform: rotate(0turn); }
+            to { transform: rotate(1turn); }
+        }
+
+        /* Skeleton Card */
+        .skeleton-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Skeleton Text */
+        .skeleton-text {
+            height: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .skeleton-text.w-3/4 { width: 75%; }
+        .skeleton-text.w-1/2 { width: 50%; }
+        .skeleton-text.w-1/4 { width: 25%; }
+        .skeleton-text.w-full { width: 100%; }
     </style>
 </head>
 <body class="text-slate-200 overflow-x-hidden">
@@ -244,6 +306,48 @@
             sidebar.classList.add('-translate-x-full');
             main.classList.remove('lg:ml-64');
         }
+
+        // Loading States for Forms
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle form submissions with loading states
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+                    if (submitBtn && !submitBtn.classList.contains('btn-loading')) {
+                        submitBtn.classList.add('btn-loading');
+                        submitBtn.disabled = true;
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.setAttribute('data-original-text', originalText);
+                        submitBtn.innerHTML = '<span class="opacity-0">' + originalText + '</span>';
+                    }
+                });
+            });
+
+            // Handle AJAX loading states for dynamic content
+            window.showSkeleton = function(selector) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.classList.add('skeleton');
+                }
+            };
+
+            window.hideSkeleton = function(selector) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.classList.remove('skeleton');
+                }
+            };
+
+            // Auto-restore button states on page load (for back navigation)
+            document.querySelectorAll('.btn-loading').forEach(btn => {
+                const originalText = btn.getAttribute('data-original-text');
+                if (originalText) {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-loading');
+                    btn.disabled = false;
+                }
+            });
+        });
     </script>
 </body>
 </html>
